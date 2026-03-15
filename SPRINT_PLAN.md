@@ -261,22 +261,22 @@ Verify:
 
 ---
 
-### E2 · IDE app entry form `[ ]`
+### E2 · IDE app entry form `[DONE]`
+Built: dialog.ipc.ts registers openFolder + openFile handlers via dialog.showOpenDialog; uses BrowserWindow.getAllWindows()[0] with null-safe fallback to avoid circular import with index.ts; registered in index.ts alongside profile handlers. IdeForm.tsx: folder path input + Browse button (calls ipc.dialog.openFolder), PositionPicker, delay input, settings fetch for idePath display (graceful catch if H1 not yet registered). FormErrors = Record<string,string> exported from IdeForm. tsc and ESLint clean.
+
 **Goal:** Form for configuring an IDE-type app entry.
 
 Files created:
 - `src/renderer/components/forms/IdeForm.tsx`
-  - Props: `value: IdeEntry`, `onChange(v: IdeEntry) => void`, `errors: FormErrors`
-  - Fields: folder path (text input + Browse button using `window.api.invoke('dialog:openFolder')`)
-  - Shows detected VS Code path below (read from settings, or "Not configured — set in Settings")
+- `src/main/ipc/dialog.ipc.ts`
 
 Files modified:
-- `src/main/ipc/dialog.ipc.ts` (new) — `dialog:openFolder` and `dialog:openFile` handlers using `dialog.showOpenDialog`
+- `src/main/index.ts` — register dialog handlers
 
 Verify:
-- [ ] Browse button opens folder picker
-- [ ] Selected path populates input
-- [ ] Empty path shows validation error
+- [ ] Browse button opens folder picker — requires manual run
+- [ ] Selected path populates input — requires manual run
+- [ ] Empty path shows validation error — requires manual run
 
 ---
 

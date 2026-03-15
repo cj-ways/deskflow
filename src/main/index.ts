@@ -2,6 +2,7 @@ import log from './logger'
 import { app, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { registerProfileHandlers } from './ipc/profiles.ipc'
+import { registerDialogHandlers } from './ipc/dialog.ipc'
 import { initTray } from './tray'
 import { ProfileManager } from './services/ProfileManager'
 import { APP_BUNDLE_ID } from '@shared/constants'
@@ -69,6 +70,7 @@ if (!app.requestSingleInstanceLock()) {
   app.whenReady().then(async () => {
     log.info('app ready')
     registerProfileHandlers()
+    registerDialogHandlers()
     const profiles = await ProfileManager.getAll()
     initTray(profiles)
     createWindow()
