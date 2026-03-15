@@ -34,7 +34,9 @@ Verify:
 
 ---
 
-### A2 · Shared types `[ ]`
+### A2 · Shared types `[DONE]`
+Built: full type tree in types.ts (Position×12, AppEntry discriminated union with IdeEntry/BrowserEntry/TerminalEntry/GenericAppEntry, Profile/Desktop, Settings, WindowInfo, LaunchResult/LaunchReport/LaunchProgressEvent, IpcDataResponse/IpcVoidResponse, FileFilter, PositionPresetFn). IPC const object with 14 channels + typed IpcChannelMap/IpcEventMap. Constants with all path fragments, defaults, POSITION_VALUES array, position pixel-math formula documented. tsc and ESLint clean.
+
 **Goal:** Define all domain types in one place so main and renderer share the same contracts.
 
 Files created:
@@ -43,8 +45,8 @@ Files created:
 - `src/shared/constants.ts` — `APP_NAME`, `APPDATA_PROFILES_DIR`, `APPDATA_SETTINGS_FILE`, `APPDATA_LOGS_DIR`, position preset pixel-math formula (as a function signature, not yet implemented)
 
 Verify:
-- [ ] `tsc --noEmit` passes — all types resolve cleanly
-- [ ] No `any` types
+- [x] `tsc --noEmit` passes — all types resolve cleanly
+- [x] No `any` types
 
 ---
 
