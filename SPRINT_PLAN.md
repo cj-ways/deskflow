@@ -295,20 +295,18 @@ Verify:
 
 ---
 
-### E4 · Terminal app entry form `[ ]`
+### E4 · Terminal app entry form `[DONE]`
+Built: TerminalForm.tsx with Command / Script file mode toggle. Command mode: workingDir input + Browse (openFolder) + command input (monospace font). Script mode: scriptPath input + Browse (openFile filtered to bat/ps1/sh). switchMode() rebuilds discriminated union preserving shared fields. setPosition/setDelay helpers for type-safe union updates. tsc and ESLint clean.
+
 **Goal:** Form for terminal-type entries (run command or execute script file).
 
 Files created:
 - `src/renderer/components/forms/TerminalForm.tsx`
-  - Mode toggle: "Command" / "Script file"
-  - Command mode: working dir (browse) + command text input
-  - Script mode: file picker filtered to `.bat`, `.sh`, `.ps1`
-  - Both include `PositionPicker` + delay input
 
 Verify:
-- [ ] Toggle switches between modes
-- [ ] Browse works for both working dir and script file
-- [ ] Empty command field shows validation error
+- [ ] Toggle switches between modes — requires manual run
+- [ ] Browse works for both working dir and script file — requires manual run
+- [ ] Empty command field shows validation error — requires manual run
 
 ---
 
