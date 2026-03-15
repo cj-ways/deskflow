@@ -310,19 +310,18 @@ Verify:
 
 ---
 
-### E5 · Generic app entry form `[ ]`
+### E5 · Generic app entry form `[DONE]`
+Built: AppForm.tsx — exe path input + Browse (openFile filtered to exe/com/bat/cmd), non-.exe amber warning (soft, not error), args text input (space-joined display, split on whitespace on change), PositionPicker, delay. tsc and ESLint clean.
+
 **Goal:** Form for any `.exe` app entry.
 
 Files created:
 - `src/renderer/components/forms/AppForm.tsx`
-  - Exe path input + Browse (filtered to `.exe`)
-  - Optional args input
-  - `PositionPicker` + delay input
 
 Verify:
-- [ ] Browse opens file picker filtered to .exe
-- [ ] Non-.exe path shows warning (not hard error — some apps have unusual extensions)
-- [ ] Args field accepts any text
+- [ ] Browse opens file picker filtered to .exe — requires manual run
+- [ ] Non-.exe path shows warning — requires manual run
+- [ ] Args field accepts any text — requires manual run
 
 ---
 
