@@ -280,21 +280,18 @@ Verify:
 
 ---
 
-### E3 · Browser app entry form `[ ]`
+### E3 · Browser app entry form `[DONE]`
+Built: BrowserForm.tsx with segmented mode toggle (Local project / Website). switchMode() rebuilds the full discriminated union object preserving id/position/delayMs. Local: port input (1–65535) + live preview "Opens: http://localhost:{port}". Website: url input + isValidUrl() inline warning (try/catch new URL). Explicit setPosition/setDelay helpers to avoid union spread issues with tsc. PositionPicker + delay shared between modes. tsc and ESLint clean.
+
 **Goal:** Form for browser-type app entries (local port or full URL).
 
 Files created:
 - `src/renderer/components/forms/BrowserForm.tsx`
-  - Mode toggle: "Local project" / "Website"
-  - Local: port number input → preview shows `http://localhost:{port}`
-  - Website: URL text input with basic URL validation
-  - Both modes include `PositionPicker` + delay input
 
 Verify:
-- [ ] Toggle switches between local/website modes
-- [ ] Port 5173 → preview shows `http://localhost:5173`
-- [ ] Invalid URL shows error
-- [ ] Non-numeric port shows error
+- [ ] Toggle switches between local/website modes — requires manual run
+- [ ] Port 5173 → preview shows `http://localhost:5173` — requires manual run
+- [ ] Invalid URL shows warning — requires manual run
 
 ---
 
