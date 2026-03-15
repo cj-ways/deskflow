@@ -246,20 +246,18 @@ Verify:
 
 ## Group E — Profile Editor UI
 
-### E1 · PositionPicker component `[ ]`
+### E1 · PositionPicker component `[DONE]`
+Built: 3×3 grid of 40×40px buttons each containing an absolutely-positioned mini "window" indicator (CSSProperties map, no Tailwind dynamic classes). Selected: indigo-50 border + indigo-500 indicator. Hover: indigo-50 border preview. Three special-preset buttons below (Left ½, Right ½, Full) with same active/hover styles. All 12 positions covered. tsc and ESLint clean.
+
 **Goal:** Standalone component for selecting a window position preset.
 
 Files created:
 - `src/renderer/components/PositionPicker.tsx`
-  - Props: `value: Position`, `onChange(p: Position) => void`
-  - Renders 3×3 grid (TL, TC, TR, ML, C, MR, BL, BC, BR) — each cell clickable
-  - Below grid: `[Left ½]` `[Right ½]` `[Full screen]` buttons
-  - Selected preset highlighted
 
 Verify:
-- [ ] Clicking each cell calls `onChange` with correct Position value
-- [ ] Selected cell is visually highlighted
-- [ ] All 10 presets selectable (9 grid + left-half + right-half + full = actually 12 total including the 3 buttons)
+- [ ] Clicking each cell calls onChange with correct Position value — requires manual run
+- [ ] Selected cell is visually highlighted — requires manual run
+- [ ] All 12 presets selectable — requires manual run
 
 ---
 
