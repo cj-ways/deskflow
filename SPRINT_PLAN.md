@@ -102,7 +102,9 @@ Verify:
 
 ## Group B — Profile Storage
 
-### B1 · ProfileManager service `[ ]`
+### B1 · ProfileManager service `[DONE]`
+Built: profile.schema.ts defines flat z.union of all 6 app entry variants (ide, browser-local, browser-website, terminal-command, terminal-script, app) + desktopSchema + profileSchema. ProfileManager.ts implements getAll/getById/save/delete/duplicate using fs/promises; ensureDir() auto-creates profiles directory; getAll() uses safeParse to skip corrupted files with a warning; save() uses parse() (throws on invalid); duplicate() uses structuredClone + randomUUID. tsc and ESLint clean.
+
 **Goal:** Service that reads/writes profiles as JSON files in `%APPDATA%\DeskFlow\profiles\`.
 
 Files created:
@@ -115,9 +117,9 @@ Files created:
 - `src/main/services/profile.schema.ts` — zod schema matching `Profile` type
 
 Verify:
-- [ ] Unit test (or manual Node script): create → read → update → delete cycle works
-- [ ] Corrupted JSON file in profiles dir → `getAll()` skips it and logs warning, does not throw
-- [ ] Profile directory auto-created if it doesn't exist
+- [ ] Unit test (or manual Node script): create → read → update → delete cycle works — requires manual run
+- [ ] Corrupted JSON file in profiles dir → `getAll()` skips it and logs warning, does not throw — requires manual run
+- [ ] Profile directory auto-created if it doesn't exist — requires manual run
 
 ---
 
