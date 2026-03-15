@@ -33,5 +33,8 @@ desktop.ini
 *.swp
 *.swo
 
+# Claude Code auto-memory (editor tool state, not project code)
+.claude/
+
 # TypeScript incremental build info
 *.tsbuildinfo
