@@ -143,7 +143,9 @@ Verify:
 
 ## Group C — Main Window + Tray
 
-### C1 · Main window behaviour `[ ]`
+### C1 · Main window behaviour `[DONE]`
+Built: requestSingleInstanceLock() at module level — second instance quits, first shows/focuses via second-instance event. setAppUserModelId(APP_BUNDLE_ID). close handler intercepts and hides unless isQuitting=true. Exported getMainWindow() and quitApp() helpers — quitApp() sets isQuitting before calling app.quit() so the close interceptor lets it through (required for tray quit in C2). tsc and ESLint clean.
+
 **Goal:** Window lifecycle — show, hide, single-instance lock, close-to-tray.
 
 Files modified:
@@ -151,12 +153,12 @@ Files modified:
   - `app.requestSingleInstanceLock()` — second launch focuses existing window
   - `app.setAppUserModelId('com.deskflow.app')`
   - `win.on('close', e => { e.preventDefault(); win.hide() })` — close hides, doesn't quit
-  - Export `getMainWindow()` helper
+  - Export `getMainWindow()` and `quitApp()` helpers
 
 Verify:
-- [ ] Launch app twice — second instance does not open a new window, first is focused
-- [ ] Clicking window X hides it (taskbar entry disappears)
-- [ ] App process is still running after hiding
+- [ ] Launch app twice — second instance does not open a new window, first is focused — requires manual run
+- [ ] Clicking window X hides it (taskbar entry disappears) — requires manual run
+- [ ] App process is still running after hiding — requires manual run
 
 ---
 
