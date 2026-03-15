@@ -228,22 +228,19 @@ Verify:
 
 ---
 
-### D3 · Profile list page wired `[ ]`
+### D3 · Profile list page wired `[DONE]`
+Built: ProfileList.tsx loads profiles via ipc.profiles.getAll() on mount (useCallback + useEffect). null state = loading spinner text. Error banner on IPC failure. Empty state with centered message + "New Profile" button. Profile grid (1/2/3 cols responsive). onEdit → navigate(/profile/:id), onDelete/onDuplicate → IPC call then reload list. tsc and ESLint clean.
+
 **Goal:** ProfileList page loads real profiles from IPC and renders ProfileCards.
 
 Files modified:
 - `src/renderer/pages/ProfileList.tsx`
-  - Calls `ipc.profiles.getAll()` on mount
-  - Renders `ProfileCard` for each
-  - Empty state: "No profiles yet. Create your first one." with a "+ New Profile" button
-  - "+ New Profile" navigates to `/profile/new`
-  - Edit/Duplicate/Delete wired to IPC calls
 
 Verify:
-- [ ] Page loads and shows existing profiles from disk
-- [ ] Empty state shown when no profiles exist
-- [ ] Delete a profile → card disappears from list
-- [ ] Duplicate a profile → new card appears
+- [ ] Page loads and shows existing profiles from disk — requires manual run
+- [ ] Empty state shown when no profiles exist — requires manual run
+- [ ] Delete a profile → card disappears from list — requires manual run
+- [ ] Duplicate a profile → new card appears — requires manual run
 
 ---
 
