@@ -123,7 +123,9 @@ Verify:
 
 ---
 
-### B2 · Profile IPC handlers `[ ]`
+### B2 · Profile IPC handlers `[DONE]`
+Built: profiles.ipc.ts registers all 5 profile handlers (getAll/getById/save/delete/duplicate) via ipcMain.handle; every handler is try/catch with typed IpcDataResponse/IpcVoidResponse returns; string id params narrowed from unknown before use; save passes through ProfileManager.save which runs zod validation. index.ts calls registerProfileHandlers() before createWindow(). tsc and ESLint clean.
+
 **Goal:** Wire ProfileManager to IPC so the renderer can call it.
 
 Files created:
@@ -133,9 +135,9 @@ Files created:
 - `src/main/index.ts` — import and call `registerProfileHandlers()`
 
 Verify:
-- [ ] From renderer DevTools: `await window.api.invoke('profiles:getAll')` returns `{ success: true, data: [] }`
-- [ ] Create a profile via IPC → file appears in `%APPDATA%\DeskFlow\profiles\`
-- [ ] Delete via IPC → file removed
+- [ ] From renderer DevTools: `await window.api.invoke('profiles:getAll')` returns `{ success: true, data: [] }` — requires manual run
+- [ ] Create a profile via IPC → file appears in `%APPDATA%\DeskFlow\profiles\` — requires manual run
+- [ ] Delete via IPC → file removed — requires manual run
 
 ---
 

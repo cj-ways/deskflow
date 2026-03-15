@@ -1,6 +1,7 @@
 import log from './logger'
 import { app, BrowserWindow } from 'electron'
 import { join } from 'path'
+import { registerProfileHandlers } from './ipc/profiles.ipc'
 
 function createWindow(): void {
   const win = new BrowserWindow({
@@ -23,6 +24,7 @@ function createWindow(): void {
 
 app.whenReady().then(() => {
   log.info('app ready')
+  registerProfileHandlers()
   createWindow()
 
   app.on('activate', () => {
