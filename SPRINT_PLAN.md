@@ -83,17 +83,20 @@ Verify:
 
 ---
 
-### A5 · Preload + contextBridge `[ ]`
+### A5 · Preload + contextBridge `[DONE]`
+Built: preload/index.ts exposes window.api via contextBridge with invoke<C>/on<C>/off<C> typed against IpcChannelMap/IpcEventMap — no explicit any, listener registry for clean removal. renderer/env.d.ts declares global Window.api interface. renderer/ipc/client.ts groups all IPC calls by domain (ipc.profiles.*, ipc.dialog.*, ipc.launch.*, ipc.snapshot.*, ipc.settings.*) — components import from here, never touch window.api directly. tsc and ESLint clean.
+
 **Goal:** Secure IPC bridge between main and renderer — renderer never touches Node directly.
 
 Files created:
 - `src/preload/index.ts` — exposes `window.api` via `contextBridge.exposeInMainWorld`; typed API surface using channel names from `ipc-channels.ts`
+- `src/renderer/env.d.ts` — global `interface Window { api: ElectronApi }` declaration
 - `src/renderer/ipc/client.ts` — typed wrapper functions that call `window.api.invoke(channel, payload)` — components never call `window.api` directly
 
 Verify:
-- [ ] `window.api` is defined in renderer DevTools console
-- [ ] Calling `window.api.invoke('unknown-channel')` returns an error, not a crash
-- [ ] `nodeIntegration: false`, `contextIsolation: true` confirmed in BrowserWindow config
+- [ ] `window.api` is defined in renderer DevTools console — requires manual run
+- [ ] Calling `window.api.invoke('unknown-channel')` returns an error, not a crash — requires manual run
+- [x] `nodeIntegration: false`, `contextIsolation: true` confirmed in BrowserWindow config
 
 ---
 
