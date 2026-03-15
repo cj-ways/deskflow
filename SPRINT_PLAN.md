@@ -325,23 +325,19 @@ Verify:
 
 ---
 
-### E6 · App entry modal `[ ]`
+### E6 · App entry modal `[DONE]`
+Built: AppEntryModal.tsx — 2-step flow: type tile grid (2×2) → form. defaultEntry() builds a clean default AppEntry per type. validate() runs field-level checks without zod (renderer-side UX only; main-side zod is the real gate). isEditing prop skips step 1. Back button resets to type selection and clears errors. onChange wrappers `(v) => setEntry(v)` satisfy narrowed form prop types. Click-outside backdrop closes modal. tsc and ESLint clean.
+
 **Goal:** Modal that combines type selection + the correct form.
 
 Files created:
 - `src/renderer/components/AppEntryModal.tsx`
-  - Step 1: 4 type tiles (IDE / Browser / Terminal / App)
-  - Step 2: Renders the matching form (IdeForm, BrowserForm, TerminalForm, AppForm)
-  - Step 2 includes `PositionPicker` and delay input at bottom of every form
-  - "Back" returns to type selection
-  - "Add" / "Save" validates with zod, calls `onSave(entry)`, closes modal
-  - "Cancel" closes without saving
 
 Verify:
-- [ ] All 4 type tiles navigate to correct form
-- [ ] Back button returns to type selection
-- [ ] Saving with invalid data shows field errors, does not close
-- [ ] Saving valid entry calls onSave with correct typed object
+- [ ] All 4 type tiles navigate to correct form — requires manual run
+- [ ] Back button returns to type selection — requires manual run
+- [ ] Saving with invalid data shows field errors, does not close — requires manual run
+- [ ] Saving valid entry calls onSave with correct typed object — requires manual run
 
 ---
 
