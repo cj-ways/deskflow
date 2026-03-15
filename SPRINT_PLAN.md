@@ -189,20 +189,22 @@ Verify:
 
 ## Group D — Profile List UI
 
-### D1 · App shell + routing `[ ]`
+### D1 · App shell + routing `[DONE]`
+Built: installed react-router-dom. App.tsx uses HashRouter (works with both dev http:// and packaged file://). Nested routes: Layout (/) wraps ProfileList (index), ProfileEditor (/profile/:id), Settings (/settings); wildcard redirects to /. Layout.tsx: w-52 gray-900 sidebar with NavLink active styling (indigo-600), Outlet for content. Three placeholder pages. main.tsx updated to render <App />. tsc and ESLint clean.
+
 **Goal:** React app with a router and empty page placeholders.
 
 Files created:
 - `src/renderer/App.tsx` — React Router setup with routes: `/` (ProfileList), `/profile/:id` (ProfileEditor), `/settings` (Settings)
 - `src/renderer/components/Layout.tsx` — sidebar nav (Profiles · Settings) + main content area
-- `src/renderer/pages/ProfileList.tsx` — empty placeholder "Profile List"
-- `src/renderer/pages/ProfileEditor.tsx` — empty placeholder "Profile Editor"
-- `src/renderer/pages/Settings.tsx` — empty placeholder "Settings"
+- `src/renderer/pages/ProfileList.tsx` — empty placeholder
+- `src/renderer/pages/ProfileEditor.tsx` — empty placeholder
+- `src/renderer/pages/Settings.tsx` — empty placeholder
 
 Verify:
-- [ ] Navigating to each route shows correct placeholder
-- [ ] Layout renders sidebar and content area
-- [ ] No console errors
+- [ ] Navigating to each route shows correct placeholder — requires manual run
+- [ ] Layout renders sidebar and content area — requires manual run
+- [ ] No console errors — requires manual run
 
 ---
 
