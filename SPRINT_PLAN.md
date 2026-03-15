@@ -50,7 +50,9 @@ Verify:
 
 ---
 
-### A3 · electron-builder installer config `[ ]`
+### A3 · electron-builder installer config `[DONE]`
+Built: electron-builder.yml with NSIS x64 target, sign:null + verifyUpdateCodeSignature:false to skip winCodeSign download (no cert for unsigned open-source build). Placeholder 256×256 indigo icon generated via PowerShell. react/react-dom moved to devDependencies (bundled by Vite, not needed at runtime). cross-env added; build script bakes in CSC_IDENTITY_AUTO_DISCOVERY=false. Verified clean after fresh npm install: produces DeskFlow Setup 0.1.0.exe (82 MB).
+
 **Goal:** `npm run build` produces a working NSIS `.exe` installer.
 
 Files created/modified:
@@ -59,10 +61,10 @@ Files created/modified:
 - `package.json` — add `build` script
 
 Verify:
-- [ ] `npm run build` completes without error
-- [ ] Installer file appears in `/dist`
-- [ ] Running installer completes without error
-- [ ] DeskFlow appears in Start Menu
+- [x] `npm run build` completes without error
+- [x] Installer file appears in `/dist` — DeskFlow Setup 0.1.0.exe (82 MB)
+- [ ] Running installer completes without error — manual test required
+- [ ] DeskFlow appears in Start Menu — manual test required
 
 ---
 

@@ -1,0 +1,40 @@
+appId: com.deskflow.app
+productName: DeskFlow
+copyright: "Copyright © 2026 DeskFlow Contributors"
+
+directories:
+  output: dist
+  buildResources: resources
+
+# Include compiled app output + package.json (for runtime dep resolution)
+# node_modules for production deps (electron-log, zod) are auto-included
+files:
+  - out/**/*
+  - package.json
+
+# Phase F2: uncomment when VirtualDesktopAccessor.dll is added
+# extraResources:
+#   - from: resources/VirtualDesktopAccessor.dll
+#     to: resources/VirtualDesktopAccessor.dll
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: resources/icon.ico
+  # asInvoker = no UAC prompt on launch (standard for user apps)
+  requestedExecutionLevel: asInvoker
+  # Disable code signing for unsigned open-source build
+  sign: null
+  verifyUpdateCodeSignature: false
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: DeskFlow
+  installerIcon: resources/icon.ico
+  uninstallerIcon: resources/icon.ico
+  # Phase I: add PATH registration for deskflow CLI command
