@@ -162,7 +162,9 @@ Verify:
 
 ---
 
-### C2 · System tray `[ ]`
+### C2 · System tray `[DONE]`
+Built: tray.ts creates Tray with icon (dev: ../../resources/icon.ico, packaged: process.resourcesPath/icon.ico), builds context menu with disabled profile name items + Open DeskFlow + Quit; left-click shows/focuses window via BrowserWindow.getAllWindows()[0]; quit uses app.exit(0) to bypass the close interceptor without needing a flag or circular import. initTray(profiles) called from index.ts after ProfileManager.getAll() on app ready. updateTrayMenu() exported and called from profiles.ipc.ts after save/delete/duplicate to keep menu live. icon.ico added to extraResources in electron-builder.yml. tsc and ESLint clean.
+
 **Goal:** Tray icon with context menu. Tray is the only way to quit.
 
 Files created:
@@ -170,16 +172,18 @@ Files created:
   - Icon from `resources/icon.ico`
   - Menu: `[profile names disabled]` · `Open DeskFlow` · `Quit`
   - Single-click tray icon → show/focus main window
-  - `updateMenu(profiles: Profile[])` — called when profiles change to refresh the list
+  - `updateTrayMenu(profiles: Profile[])` — called when profiles change to refresh the list
 
 Files modified:
-- `src/main/index.ts` — init tray after app ready
+- `src/main/index.ts` — load profiles then init tray on app ready
+- `src/main/ipc/profiles.ipc.ts` — call updateTrayMenu after save/delete/duplicate
+- `electron-builder.yml` — add icon.ico to extraResources
 
 Verify:
-- [ ] Tray icon appears in system tray
-- [ ] Right-click → "Open DeskFlow" shows the window
-- [ ] Right-click → "Quit" exits the process completely
-- [ ] Profile names appear in tray menu (using test data)
+- [ ] Tray icon appears in system tray — requires manual run
+- [ ] Right-click → "Open DeskFlow" shows the window — requires manual run
+- [ ] Right-click → "Quit" exits the process completely — requires manual run
+- [ ] Profile names appear in tray menu (using test data) — requires manual run
 
 ---
 

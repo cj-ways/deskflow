@@ -12,10 +12,13 @@ files:
   - out/**/*
   - package.json
 
-# Phase F2: uncomment when VirtualDesktopAccessor.dll is added
-# extraResources:
-#   - from: resources/VirtualDesktopAccessor.dll
-#     to: resources/VirtualDesktopAccessor.dll
+extraResources:
+  # Tray icon — accessed at runtime via process.resourcesPath
+  - from: resources/icon.ico
+    to: icon.ico
+  # Phase F2: uncomment when VirtualDesktopAccessor.dll is added
+  # - from: resources/VirtualDesktopAccessor.dll
+  #   to: resources/VirtualDesktopAccessor.dll
 
 win:
   target:

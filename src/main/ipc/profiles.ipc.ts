@@ -2,6 +2,7 @@ import { ipcMain } from 'electron'
 import log from '../logger'
 import { IPC } from '@shared/ipc-channels'
 import { ProfileManager } from '../services/ProfileManager'
+import { updateTrayMenu } from '../tray'
 import type { Profile, IpcDataResponse, IpcVoidResponse } from '@shared/types'
 
 function errMsg(err: unknown): string {
@@ -33,6 +34,7 @@ export function registerProfileHandlers(): void {
   ipcMain.handle(IPC.PROFILES_SAVE, async (_e, profile: unknown): Promise<IpcVoidResponse> => {
     try {
       await ProfileManager.save(profile as Profile)
+      updateTrayMenu(await ProfileManager.getAll())
       return { success: true }
     } catch (err) {
       log.error('profiles:save error', err)
@@ -44,6 +46,7 @@ export function registerProfileHandlers(): void {
     if (typeof id !== 'string') return { success: false, error: 'id must be a string' }
     try {
       await ProfileManager.delete(id)
+      updateTrayMenu(await ProfileManager.getAll())
       return { success: true }
     } catch (err) {
       log.error('profiles:delete error', err)
@@ -55,6 +58,7 @@ export function registerProfileHandlers(): void {
     if (typeof id !== 'string') return { success: false, error: 'id must be a string' }
     try {
       const data = await ProfileManager.duplicate(id)
+      updateTrayMenu(await ProfileManager.getAll())
       return { success: true, data }
     } catch (err) {
       log.error('profiles:duplicate error', err)
