@@ -68,7 +68,9 @@ Verify:
 
 ---
 
-### A4 · Logging setup `[ ]`
+### A4 · Logging setup `[DONE]`
+Built: src/main/logger.ts configures electron-log v5 (electron-log/main subpath), resolvePathFn builds path from app.getPath('appData') + constants, file level info, console level debug, 10 MB rotation, timestamp format. log.initialize() enables renderer IPC bridge. index.ts imports logger first and logs 'app ready'. tsc and ESLint clean.
+
 **Goal:** `electron-log` configured and writing to file from first launch.
 
 Files created/modified:
@@ -76,8 +78,8 @@ Files created/modified:
 - `src/main/index.ts` — import logger, log `app ready` on startup
 
 Verify:
-- [ ] After `npm run dev`, log file exists at `%APPDATA%\DeskFlow\logs\main.log`
-- [ ] Log contains `[info] app ready` entry
+- [ ] After `npm run dev`, log file exists at `%APPDATA%\DeskFlow\logs\main.log` — requires manual run
+- [ ] Log contains `[info] app ready` entry — requires manual run
 
 ---
 

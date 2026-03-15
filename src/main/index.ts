@@ -1,3 +1,4 @@
+import log from './logger'
 import { app, BrowserWindow } from 'electron'
 import { join } from 'path'
 
@@ -21,6 +22,7 @@ function createWindow(): void {
 }
 
 app.whenReady().then(() => {
+  log.info('app ready')
   createWindow()
 
   app.on('activate', () => {
