@@ -208,21 +208,23 @@ Verify:
 
 ---
 
-### D2 · ProfileCard component `[ ]`
+### D2 · ProfileCard component `[DONE]`
+Built: ProfileCard renders name, singular/plural desktop+app counts, relative last-launched time (formatLastLaunched helper: s/m/h/d/mo/y ago) or "Never launched". Four action buttons: Edit (indigo), Duplicate (gray), Delete (red, triggers inline confirm), Launch (disabled, gray, cursor-not-allowed). Inline delete confirm: "Delete? Yes / Cancel" replaces button row. tsc and ESLint clean.
+
 **Goal:** Visual card for a single profile — name, desktop/app count, last launched, action buttons.
 
 Files created:
 - `src/renderer/components/ProfileCard.tsx`
   - Props: `profile: Profile`, `onEdit()`, `onDuplicate()`, `onDelete()`, `onLaunch()`
-  - Shows: name, `N desktops · M apps`, last launched time (or "Never")
+  - Shows: name, `N desktops · M apps`, last launched time (or "Never launched")
   - Buttons: Edit · Duplicate · Delete · Launch (Launch disabled/greyed for now)
-  - Delete shows inline confirm ("Delete?" with Yes/No) — no separate modal
+  - Delete shows inline confirm ("Delete?" with Yes/Cancel) — no separate modal
 
 Verify:
-- [ ] Renders correctly with a mock profile
-- [ ] All 4 buttons visible
-- [ ] Delete confirm shows/hides correctly
-- [ ] Launch button is visually disabled
+- [ ] Renders correctly with a mock profile — requires manual run
+- [ ] All 4 buttons visible — requires manual run
+- [ ] Delete confirm shows/hides correctly — requires manual run
+- [ ] Launch button is visually disabled — requires manual run
 
 ---
 
