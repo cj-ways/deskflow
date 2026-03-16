@@ -86,8 +86,7 @@ export default function ProfileCard({ profile, onEdit, onDuplicate, onDelete, on
             </button>
             <button
               onClick={onLaunch}
-              disabled
-              className="ml-auto px-3 py-1 text-xs font-medium rounded text-gray-400 bg-gray-100 cursor-not-allowed"
+              className="ml-auto px-3 py-1 text-xs font-medium rounded text-white bg-indigo-600 hover:bg-indigo-700 transition-colors"
             >
               Launch
             </button>

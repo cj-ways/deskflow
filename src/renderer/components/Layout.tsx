@@ -26,6 +26,25 @@ export default function Layout() {
     return () => ipc.snapshot.offReady(handleSnapshotReady)
   }, [handleSnapshotReady])
 
+  // ── Global keyboard shortcuts ──────────────────────────────────────────────
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      // Don't fire shortcuts when typing in inputs/textareas
+      const tag = (e.target as HTMLElement).tagName
+      const isInput = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT'
+
+      if (e.ctrlKey && e.key === ',') {
+        e.preventDefault()
+        navigate('/settings')
+      } else if (e.ctrlKey && e.key === 'n' && !isInput) {
+        e.preventDefault()
+        navigate('/profile/new')
+      }
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [navigate])
+
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
       {/* Sidebar */}

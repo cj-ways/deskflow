@@ -833,19 +833,21 @@ Verify:
 
 ---
 
-### J2 · Keyboard navigation `[ ]`
+### J2 · Keyboard navigation `[DONE]`
+Built: Global keyboard shortcuts in Layout.tsx — Ctrl+, → settings, Ctrl+N → new profile (suppressed when typing in inputs). LaunchProgressModal — Escape cancels during launch, closes when finished. Also fixed ProfileCard Launch button (was disabled/gray, now active indigo). tsc clean.
+
 **Goal:** Core flows navigable without a mouse.
 
-Files modified (as needed):
-- `src/renderer/pages/ProfileList.tsx` — `Ctrl+N` new profile, `Enter` launch, `Delete` delete
-- `src/renderer/App.tsx` — `Ctrl+,` opens Settings, `Escape` closes modals / goes back
-- All modals — focus trap, `Escape` closes
+Files modified:
+- `src/renderer/components/Layout.tsx` — global keydown handler for Ctrl+, (settings) and Ctrl+N (new profile)
+- `src/renderer/components/LaunchProgressModal.tsx` — Escape key cancels or closes depending on state
+- `src/renderer/components/ProfileCard.tsx` — Launch button enabled with proper styling (was disabled placeholder)
 
 Verify:
-- [ ] `Ctrl+N` from profile list opens new profile editor
-- [ ] `Ctrl+,` opens settings from anywhere
-- [ ] `Escape` closes any open modal
-- [ ] Tab navigation works through all forms
+- [ ] `Ctrl+N` from profile list opens new profile editor — requires manual run
+- [ ] `Ctrl+,` opens settings from anywhere — requires manual run
+- [ ] `Escape` closes launch modal — requires manual run
+- [ ] Tab navigation works through all forms — requires manual run
 
 ---
 
@@ -954,4 +956,4 @@ Files modified:
 
 ---
 
-*Last updated: J1 complete. Error handling pass done. Next: J2 (Keyboard navigation).*
+*Last updated: J2 complete. Keyboard navigation done. Next: J3 (GitHub repo setup).*

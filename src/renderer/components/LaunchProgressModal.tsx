@@ -108,6 +108,21 @@ export default function LaunchProgressModal({ profileId, profileName, onClose }:
     ipc.launch.cancel()
   }
 
+  // Escape key — cancel if in-progress, close if finished
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (finished) {
+          onClose()
+        } else {
+          handleCancel()
+        }
+      }
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [finished, onClose])
+
   const progressPercent = total > 0 ? Math.round((completed / total) * 100) : 0
 
   return (
