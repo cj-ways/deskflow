@@ -2,12 +2,14 @@ import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ipc } from '@renderer/ipc/client'
 import ProfileCard from '../components/ProfileCard'
+import LaunchProgressModal from '../components/LaunchProgressModal'
 import type { Profile } from '@shared/types'
 
 export default function ProfileList() {
   const navigate = useNavigate()
   const [profiles, setProfiles] = useState<Profile[] | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [launchingProfile, setLaunchingProfile] = useState<Profile | null>(null)
 
   const loadProfiles = useCallback(async () => {
     setError(null)
@@ -85,10 +87,22 @@ export default function ProfileList() {
               onEdit={() => navigate(`/profile/${profile.id}`)}
               onDuplicate={() => handleDuplicate(profile.id)}
               onDelete={() => handleDelete(profile.id)}
-              onLaunch={() => undefined} // wired in Phase F11
+              onLaunch={() => setLaunchingProfile(profile)}
             />
           ))}
         </div>
+      )}
+
+      {/* Launch progress modal */}
+      {launchingProfile && (
+        <LaunchProgressModal
+          profileId={launchingProfile.id}
+          profileName={launchingProfile.name}
+          onClose={() => {
+            setLaunchingProfile(null)
+            loadProfiles()
+          }}
+        />
       )}
     </div>
   )

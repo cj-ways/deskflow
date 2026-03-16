@@ -589,7 +589,9 @@ Verify:
 
 ---
 
-### F11 · Launch progress modal `[ ]`
+### F11 · Launch progress modal `[DONE]`
+Built: LaunchProgressModal component — subscribes to launch:progress events, tracks per-app status (pending/launching/done/failed) with animated spinner, checkmark, or X. Progress bar with completed/total counter. Cancel button during launch, Close button after. Auto-closes 2s after all-success completion. Wired into ProfileList (Launch button) and ProfileEditor (Save+Launch). tsc clean.
+
 **Goal:** UI that shows real-time launch progress.
 
 Files created:
@@ -597,18 +599,18 @@ Files created:
   - Shows profile name + animated progress bar
   - Lists each app: spinner (launching) / checkmark (done) / X (failed)
   - Failed items show error string inline
-  - "Cancel" button
-  - Auto-closes 2s after full completion
+  - Cancel button during launch, Close button after
+  - Auto-closes 2s after all-success completion
 
 Files modified:
-- `src/renderer/pages/ProfileList.tsx` — Launch button triggers modal
-- `src/renderer/pages/ProfileEditor.tsx` — "Save + Launch" triggers modal
+- `src/renderer/pages/ProfileList.tsx` — Launch button opens modal, reloads profiles on close
+- `src/renderer/pages/ProfileEditor.tsx` — Save+Launch saves then opens modal, navigates home on close
 
 Verify:
-- [ ] Launch from ProfileList → modal appears, updates in real time
-- [ ] Failed app shown with X and error message
-- [ ] Cancel mid-launch → modal closes, remaining apps don't open
-- [ ] Success → modal auto-closes after 2s
+- [ ] Launch from ProfileList → modal appears, updates in real time — requires manual run
+- [ ] Failed app shown with X and error message — requires manual run
+- [ ] Cancel mid-launch → remaining apps don't launch — requires manual run
+- [ ] Success → modal auto-closes after 2s — requires manual run
 
 ---
 
@@ -921,4 +923,4 @@ Files modified:
 
 ---
 
-*Last updated: F10 complete. Launch IPC wired. Next: F11 (Launch progress modal UI).*
+*Last updated: F11 complete. Launch UI done. Next: F12 (Enable tray launch).*

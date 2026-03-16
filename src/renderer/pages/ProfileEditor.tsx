@@ -3,6 +3,7 @@ import { useParams, useNavigate, useBlocker } from 'react-router-dom'
 import { ipc } from '@renderer/ipc/client'
 import type { Profile, Desktop } from '@shared/types'
 import DesktopCard from '../components/DesktopCard'
+import LaunchProgressModal from '../components/LaunchProgressModal'
 
 function buildNewProfile(): Profile {
   return {
@@ -27,6 +28,7 @@ export default function ProfileEditor() {
   const [error, setError] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
   const [isDirty, setIsDirty] = useState(false)
+  const [launching, setLaunching] = useState(false)
 
   const originalRef = useRef<string>('')
 
@@ -138,9 +140,8 @@ export default function ProfileEditor() {
       }
       originalRef.current = JSON.stringify(profile)
       setIsDirty(false)
-      // andLaunch will trigger the progress modal in Phase F11 — navigate for now
       if (andLaunch) {
-        navigate('/')
+        setLaunching(true)
       } else {
         navigate('/')
       }
@@ -245,6 +246,18 @@ export default function ProfileEditor() {
           + Add Desktop
         </button>
       </div>
+
+      {/* Launch progress modal */}
+      {launching && profile && (
+        <LaunchProgressModal
+          profileId={profile.id}
+          profileName={profile.name}
+          onClose={() => {
+            setLaunching(false)
+            navigate('/')
+          }}
+        />
+      )}
     </div>
   )
 }
