@@ -633,21 +633,24 @@ Verify:
 
 ## Group G — Snapshot Mode
 
-### G1 · SnapshotDetector `[ ]`
+### G1 · SnapshotDetector `[DONE]`
+Built: Single PS invocation using C# Add-Type with EnumWindows, GetWindowText, GetWindowRect, DwmGetWindowAttribute (cloaked filter), and VDA GetWindowDesktopNumber. Excludes DeskFlow's own PID, cloaked UWP windows, zero-size windows, and common shell processes (explorer, SearchHost, etc.). Each window output as JSON line, parsed in TS. 30s timeout. tsc clean.
+
 **Goal:** Enumerate all user-visible windows with process metadata and virtual desktop index.
 
 Files created:
 - `src/main/platform/windows/SnapshotDetector.ts`
   - `getWindows(): Promise<WindowInfo[]>`
-  - For each visible, non-system window: hwnd, pid, title, exePath, workingDir, desktopIndex, bounds
-  - Filters out: system windows, DeskFlow itself, taskbar, tray
-  - One unreadable window → logged + skipped, rest continue
+  - Single PS script: C# P/Invoke EnumWindows + VDA DLL for desktop index
+  - Filters: cloaked windows, zero-size, system/shell processes, own PID
+  - JSON-line output parsed in TypeScript
+  - Unparseable lines logged and skipped
 
 Verify:
-- [ ] Call `getWindows()` with VS Code + Chrome open → both appear in results
-- [ ] `exePath` and `workingDir` populated correctly
-- [ ] `desktopIndex` matches which virtual desktop the window is on
-- [ ] DeskFlow's own window not in results
+- [ ] Call `getWindows()` with VS Code + Chrome open → both appear in results — requires manual run
+- [ ] `exePath` and `workingDir` populated correctly — requires manual run
+- [ ] `desktopIndex` matches which virtual desktop the window is on — requires manual run
+- [ ] DeskFlow's own window not in results — requires manual run
 
 ---
 
@@ -926,4 +929,4 @@ Files modified:
 
 ---
 
-*Last updated: F12 complete. Group F (Launch Engine) fully done. Next: G1 (SnapshotDetector).*
+*Last updated: G1 complete. Next: G2 (SnapshotService — transform windows into profile draft).*
