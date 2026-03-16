@@ -1,12 +1,14 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ipc } from '@renderer/ipc/client'
+import { useErrorToast } from '../components/ErrorToast'
 import ProfileCard from '../components/ProfileCard'
 import LaunchProgressModal from '../components/LaunchProgressModal'
 import type { Profile } from '@shared/types'
 
 export default function ProfileList() {
   const navigate = useNavigate()
+  const { showError } = useErrorToast()
   const [profiles, setProfiles] = useState<Profile[] | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [launchingProfile, setLaunchingProfile] = useState<Profile | null>(null)
@@ -14,24 +16,37 @@ export default function ProfileList() {
 
   const loadProfiles = useCallback(async () => {
     setError(null)
-    const res = await ipc.profiles.getAll()
-    if (res.success) {
-      setProfiles(res.data)
-    } else {
-      setError(res.error)
+    try {
+      const res = await ipc.profiles.getAll()
+      if (res.success) {
+        setProfiles(res.data)
+      } else {
+        setError(res.error)
+      }
+    } catch (e) {
+      const msg = `Failed to load profiles: ${String(e)}`
+      setError(msg)
+      showError(msg)
     }
-  }, [])
+  }, [showError])
 
   useEffect(() => {
     loadProfiles()
   }, [loadProfiles])
 
   const handleDelete = async (id: string) => {
-    const res = await ipc.profiles.delete(id)
-    if (res.success) {
-      await loadProfiles()
-    } else {
-      setError(res.error)
+    try {
+      const res = await ipc.profiles.delete(id)
+      if (res.success) {
+        await loadProfiles()
+      } else {
+        setError(res.error)
+        showError(res.error)
+      }
+    } catch (e) {
+      const msg = `Failed to delete profile: ${String(e)}`
+      setError(msg)
+      showError(msg)
     }
   }
 
@@ -53,11 +68,18 @@ export default function ProfileList() {
   }
 
   const handleDuplicate = async (id: string) => {
-    const res = await ipc.profiles.duplicate(id)
-    if (res.success) {
-      await loadProfiles()
-    } else {
-      setError(res.error)
+    try {
+      const res = await ipc.profiles.duplicate(id)
+      if (res.success) {
+        await loadProfiles()
+      } else {
+        setError(res.error)
+        showError(res.error)
+      }
+    } catch (e) {
+      const msg = `Failed to duplicate profile: ${String(e)}`
+      setError(msg)
+      showError(msg)
     }
   }
 

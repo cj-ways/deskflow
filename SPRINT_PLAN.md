@@ -813,21 +813,23 @@ Verify:
 
 ## Group J — Polish + Distribution
 
-### J1 · Error handling pass `[ ]`
+### J1 · Error handling pass `[DONE]`
+Built: ErrorToast system with React context (ToastProvider + useErrorToast hook). Bottom-right fixed toasts, auto-dismiss 5s, manual dismiss. Wrapped App in ToastProvider. Audited all renderer IPC calls — added try/catch to ProfileList (loadProfiles, handleDelete, handleDuplicate), wired errors to both inline banner + toast. LaunchProgressModal now checks ipc.launch.start() return value and shows error on IPC failure. Changed failed-app error text from truncate to break-words for full visibility. ProfileEditor and Settings already had proper error handling. tsc clean.
+
 **Goal:** Every failure surface in the UI shows a clear, actionable message.
 
 Files created:
-- `src/renderer/components/ErrorToast.tsx` — bottom-right toast, auto-dismiss 5s, manual dismiss
+- `src/renderer/components/ErrorToast.tsx` — ToastProvider context, useErrorToast hook, bottom-right toast with auto-dismiss 5s + manual dismiss
 
-Files audited and updated (as needed):
-- All IPC calls in renderer components — ensure error responses show ErrorToast
-- LaunchProgressModal — confirm failed apps show useful error text
-- ProfileEditor — save failures surface correctly
+Files modified:
+- `src/renderer/App.tsx` — wrapped in ToastProvider
+- `src/renderer/pages/ProfileList.tsx` — added try/catch + showError to loadProfiles, handleDelete, handleDuplicate
+- `src/renderer/components/LaunchProgressModal.tsx` — check launch.start() response, show error on IPC failure; error text uses break-words instead of truncate
 
 Verify:
-- [ ] Trigger a launch with a bad exe path → error shown in progress modal
-- [ ] IPC failure (simulate by killing main process handler) → toast appears in renderer
-- [ ] Missing DLL → toast shows "VirtualDesktopAccessor.dll not found — reinstall DeskFlow"
+- [ ] Trigger a launch with a bad exe path → error shown in progress modal — requires manual run
+- [ ] IPC failure → toast appears in renderer — requires manual run
+- [ ] Failed app error text wraps instead of truncating — requires manual run
 
 ---
 
@@ -952,4 +954,4 @@ Files modified:
 
 ---
 
-*Last updated: I2 complete. Group I (CLI) fully done. Next: J1 (Error handling pass).*
+*Last updated: J1 complete. Error handling pass done. Next: J2 (Keyboard navigation).*

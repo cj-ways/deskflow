@@ -76,8 +76,16 @@ export default function LaunchProgressModal({ profileId, profileName, onClose }:
   }, [])
 
   useEffect(() => {
-    // Start the launch
-    ipc.launch.start(profileId)
+    // Start the launch — check for immediate IPC errors
+    ipc.launch.start(profileId).then((res) => {
+      if (!res.success) {
+        setMessage(`Failed to start launch: ${res.error}`)
+        setFinished(true)
+      }
+    }).catch((e) => {
+      setMessage(`Failed to start launch: ${String(e)}`)
+      setFinished(true)
+    })
     ipc.launch.onProgress(handleProgress)
 
     return () => {
@@ -153,7 +161,7 @@ export default function LaunchProgressModal({ profileId, profileName, onClose }:
               <div className="min-w-0 flex-1">
                 <p className="text-sm text-gray-700 truncate">{app.label}</p>
                 {app.error && (
-                  <p className="text-xs text-red-500 mt-0.5 truncate">{app.error}</p>
+                  <p className="text-xs text-red-500 mt-0.5 break-words">{app.error}</p>
                 )}
               </div>
             </div>
