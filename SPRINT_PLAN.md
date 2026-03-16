@@ -531,18 +531,19 @@ Verify:
 
 ---
 
-### F8 · IPlatform interface `[ ]`
+### F8 · IPlatform interface `[DONE]`
+Built: IPlatform interface with 10 methods (4 virtual desktop, 4 app launch, 2 window management). WindowsPlatform class delegates to existing module functions. getPlatform() singleton factory with win32 guard. Re-exports IPlatform type from platform/index.ts for clean imports. tsc clean.
+
 **Goal:** Define the OS abstraction interface and wire the Windows implementations to it.
 
 Files created:
 - `src/main/platform/IPlatform.ts` — interface with all methods from VirtualDesktopManager, AppLauncher, WindowPositioner
 - `src/main/platform/windows/index.ts` — `WindowsPlatform` class implementing `IPlatform`
-- `src/main/platform/index.ts` — exports `getPlatform(): IPlatform` (returns WindowsPlatform on win32)
+- `src/main/platform/index.ts` — exports `getPlatform(): IPlatform` singleton (returns WindowsPlatform on win32)
 
 Verify:
-- [ ] `getPlatform()` returns an object satisfying `IPlatform`
-- [ ] All methods callable through the interface
-- [ ] `tsc --noEmit` passes with no interface mismatches
+- [x] `getPlatform()` returns an object satisfying `IPlatform` — WindowsPlatform implements all 10 methods
+- [x] `tsc --noEmit` passes with no interface mismatches
 
 ---
 
@@ -914,4 +915,4 @@ Files modified:
 
 ---
 
-*Last updated: F7 complete. All 4 app launchers done. Next: F8 (IPlatform interface).*
+*Last updated: F8 complete. Platform abstraction done. Next: F9 (LaunchEngine orchestrator).*
