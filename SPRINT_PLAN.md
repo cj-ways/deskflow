@@ -654,22 +654,23 @@ Verify:
 
 ---
 
-### G2 · SnapshotService `[ ]`
+### G2 · SnapshotService `[DONE]`
+Built: buildDraft() groups windows by desktopIndex, detects app type via exe name heuristic (Code.exe→ide with folder from title, chrome/msedge/firefox→browser, wt/cmd/powershell→terminal, else→app), maps bounds to nearest Position preset via Manhattan distance on centers + weighted size delta. Returns ProfileDraft with empty id/name. tsc clean.
+
 **Goal:** Transform raw WindowInfo list into a draft Profile.
 
 Files created:
 - `src/main/services/SnapshotService.ts`
-  - `buildDraft(windows: WindowInfo[]): ProfileDraft`
-  - Groups windows by desktopIndex → each group = one Desktop
-  - Per window: heuristic detection of type (VS Code → ide, Chrome → browser, wt → terminal, else → app)
-  - Bounds → nearest Position preset (smallest Manhattan distance to preset center)
-  - Returns `ProfileDraft` (same shape as `Profile` but with `id: ''` and `name: ''`)
+  - `buildDraft(windows: WindowInfo[]): Promise<ProfileDraft>`
+  - `detectAppType(win)` — heuristic: exe name → ide/browser/terminal/app
+  - `nearestPreset(bounds, workArea)` — Manhattan distance on center + size
+  - Groups by desktopIndex, returns ProfileDraft
 
 Verify:
-- [ ] VS Code window → detected as `ide` with correct folder
-- [ ] Chrome window → detected as `browser`
-- [ ] Unknown app → detected as `app` with exe path
-- [ ] Window in top-left quarter → maps to `top-left` preset
+- [ ] VS Code window → detected as `ide` with folder from title — requires manual run
+- [ ] Chrome window → detected as `browser` — requires manual run
+- [ ] Unknown app → detected as `app` with exe path — requires manual run
+- [ ] Window in top-left quarter → maps to `top-left` preset — requires manual run
 
 ---
 
@@ -929,4 +930,4 @@ Files modified:
 
 ---
 
-*Last updated: G1 complete. Next: G2 (SnapshotService — transform windows into profile draft).*
+*Last updated: G2 complete. Next: G3 (Snapshot IPC + tray trigger).*
