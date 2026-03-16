@@ -39,6 +39,7 @@ Every phase follows this exact loop. Do not skip any step.
    - Are there new risks or blockers that need addressing?
 4. **Update `SPRINT_PLAN.md`** if any phase needs to change — update in place, note the reason
 5. Mark the phase as `[DONE]` in `SPRINT_PLAN.md` with a one-line summary of what was built
+6. **Commit the phase** — every completed phase gets its own git commit immediately
 
 ---
 
@@ -108,7 +109,7 @@ resources/
 | Styling | Tailwind CSS 4 | Fast, consistent, no CSS files |
 | IPC pattern | contextBridge + typed channels | Secure, type-safe renderer/main boundary |
 | Virtual desktop | VirtualDesktopAccessor.dll via PowerShell | Proven, works Win10/11 |
-| Window management | node-window-manager | npm package, no native compilation needed |
+| Window management | PowerShell Win32 P/Invoke | Zero native deps, consistent with VirtualDesktopManager |
 | Profile storage | JSON in %APPDATA%\DeskFlow\profiles\ | Human-readable, portable |
 | Validation | zod | Runtime schema validation for profiles |
 | Logging | electron-log | File + console, works in packaged app |

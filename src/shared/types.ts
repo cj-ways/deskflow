@@ -200,8 +200,8 @@ export interface FileFilter {
  * Type signature for the position preset resolver.
  * Implementation lives in src/main/platform/windows/WindowPositioner.ts
  *
- * Work area: screen dimensions minus the taskbar (retrieved via node-window-manager).
- * Returns absolute pixel coordinates to pass to win32 SetWindowPos.
+ * Work area: screen dimensions minus the taskbar (retrieved via System.Windows.Forms P/Invoke).
+ * Returns absolute pixel coordinates to pass to Win32 SetWindowPos.
  */
 export type PositionPresetFn = (
   position: Position,
