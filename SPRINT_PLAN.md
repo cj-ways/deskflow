@@ -454,7 +454,9 @@ Verify:
 
 ---
 
-### F4 · AppLauncher — IDE `[ ]`
+### F4 · AppLauncher — IDE `[DONE]`
+Built: AppLauncher.ts created. launchIde(entry, vscodePath) handles both direct Code.exe and code.cmd wrapper: snapshots existing Code.exe PIDs via getRunningPids() before spawn; for .exe uses findWindowByPid on spawned PID; for .cmd/.bat wrappers (which exit immediately) uses pollForNewPid() which PS-polls Get-Process Code every 500ms for a new PID not in the snapshot; once PID found, findWindowByPid gets HWND. Always passes --new-window to ensure fresh window. WINDOW_WAIT_MS=20s. delay()/getRunningPids()/pollForNewPid() are shared helpers reused by F5-F7. tsc and ESLint clean.
+
 **Goal:** Launch VS Code to a folder and return the window handle.
 
 Files created:
