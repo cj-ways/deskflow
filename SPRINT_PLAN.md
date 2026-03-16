@@ -341,7 +341,9 @@ Verify:
 
 ---
 
-### E7 · DesktopCard component `[ ]`
+### E7 · DesktopCard component `[DONE]`
+Built: DesktopCard.tsx — DndContext + SortableContext (verticalListSortingStrategy) wrap AppEntryRow list; PointerSensor with distance:5 activationConstraint. Inline desktop name input (transparent border, focus reveals). Delete button: immediate if no apps, inline confirm ("Delete desktop? Yes / Cancel") if apps exist. Add App opens AppEntryModal (no initial = add mode); clicking Edit on a row opens AppEntryModal with initial = edit mode. handleSaveApp maps vs appends based on editingApp state. Empty state hint shown when no apps. tsc and ESLint clean.
+
 **Goal:** Component representing one virtual desktop slot in the profile editor.
 
 Files created:
@@ -365,7 +367,9 @@ Verify:
 
 ---
 
-### E8 · Profile editor page wired `[ ]`
+### E8 · Profile editor page wired `[DONE]`
+Built: ProfileEditor.tsx loads via ipc.profiles.getById(id) or creates blank for /profile/new. isDirty tracked via JSON.stringify vs originalRef. beforeunload listener warns on page refresh when dirty. useBlocker from react-router-dom blocks in-app navigation with window.confirm. Top bar: ← back, profile name input, "Unsaved changes" badge, Save + Save+Launch buttons. updateDesktop/deleteDesktop/addDesktop mutate local state; deleteDesktop reindexes remaining desktops. Save calls ipc.profiles.save → resets dirty → navigate(/). Validate requires non-empty name. Error banner for IPC failures. tsc and ESLint clean.
+
 **Goal:** Full profile editor page — create new and edit existing profiles.
 
 Files modified:
@@ -388,7 +392,9 @@ Verify:
 
 ## Group F — Launch Engine
 
-### F1 · PowerShell utility `[ ]`
+### F1 · PowerShell utility `[DONE]`
+Built: src/main/platform/windows/utils/powershell.ts — runPS(script, timeoutMs=10000) spawns powershell.exe with -ExecutionPolicy Bypass -NonInteractive -NoProfile. Buffers stdout/stderr. Kills process and rejects on timeout. Rejects with exit code + stderr on non-zero exit. Rejects on spawn error. Logs truncated command (200 chars) and exit code via electron-log. tsc and ESLint clean.
+
 **Goal:** Reusable function to execute PowerShell commands from Node.js with timeout and error handling.
 
 Files created:
@@ -405,7 +411,9 @@ Verify:
 
 ---
 
-### F2 · VirtualDesktopManager `[ ]`
+### F2 · VirtualDesktopManager `[DONE]`
+Built: VirtualDesktopManager.ts — vdaScript() helper builds a PS here-string with Add-Type C# type definition using DllImport(@"full\path") verbatim string (backslash-safe). getDllPath() uses app.getAppPath()/resources/ in dev and process.resourcesPath/ when packaged. Four methods: getDesktopCount (returns int, validates >= 1), createDesktop (returns new 0-based index), switchToDesktop(index), moveWindowToDesktop(hwnd, index) uses [IntPtr]::new(hwnd) for 64-bit safety. electron-builder.yml DLL extraResource entry uncommented (to: VirtualDesktopAccessor.dll flat in resourcesPath). DLL must be downloaded from github.com/Ciantic/VirtualDesktopAccessor/releases and placed in resources/. tsc and ESLint clean.
+
 **Goal:** Create, count, switch, and move windows between virtual desktops via VirtualDesktopAccessor.dll.
 
 Files created:
@@ -426,7 +434,9 @@ Verify:
 
 ---
 
-### F3 · WindowPositioner `[ ]`
+### F3 · WindowPositioner `[DONE]`
+Built: WindowPositioner.ts using PowerShell Win32 P/Invoke — node-window-manager dropped (requires Visual Studio Build Tools, not available; PowerShell approach is zero-dependency and consistent with VirtualDesktopManager). getWorkArea() uses System.Windows.Forms.Screen.PrimaryScreen.WorkingArea. resolvePreset() is a pure TS function: 9 grid positions each get 50%×50% tiles with quarter-offset centering for middle row/col; left-half/right-half = 50%×100%; full = 100%×100%. findWindowByPid() polls every 250ms in TypeScript loop, each iteration spawns PS script that EnumWindows + GetWindowThreadProcessId to find first visible window for the PID. positionWindow() calls getWorkArea + resolvePreset then PS SetWindowPos with ShowWindow(9) first to restore minimised windows. tsc and ESLint clean.
+
 **Goal:** Find a window by PID/title and move/resize it to a position preset.
 
 Files created:
