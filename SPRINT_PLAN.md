@@ -745,7 +745,9 @@ Verify:
 
 ---
 
-### H2 · Settings UI `[ ]`
+### H2 · Settings UI `[DONE]`
+Built: Full Settings page with 3 sections — Application Paths (IDE/Browser/Terminal with text input + Browse file picker + Auto-detect buttons), Behavior (Start with Windows toggle, Minimize to tray toggle, Launch delay range slider 0–5000ms), Appearance (theme selector system/light/dark). Save button with success/error feedback. Preserves existing About/Updater section. tsc clean.
+
 **Goal:** Settings page where users configure IDE, browser, terminal paths and app behavior.
 
 Files modified:
@@ -757,13 +759,13 @@ Files modified:
   - Minimize to tray toggle
   - Global launch delay (ms) slider/input
   - Theme selector (system / light / dark)
-  - "Save" button
+  - "Save" button + success/error feedback
 
 Verify:
-- [ ] Settings load current values on open
-- [ ] Auto-detect finds VS Code and Chrome
-- [ ] Save persists to `%APPDATA%\DeskFlow\settings.json`
-- [ ] Changing theme applies immediately
+- [ ] Settings load current values on open — requires manual run
+- [ ] Auto-detect finds VS Code and Chrome — requires manual run
+- [ ] Save persists to `%APPDATA%\DeskFlow\settings.json` — requires manual run
+- [ ] Changing theme applies immediately — requires manual run
 
 ---
 
@@ -941,4 +943,4 @@ Files modified:
 
 ---
 
-*Last updated: H1 complete. Settings storage + auto-detect done. Next: H2 (Settings UI page).*
+*Last updated: H2 complete. Group H (Settings) fully done. Next: I1 (CLI argument parser).*
