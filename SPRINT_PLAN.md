@@ -547,21 +547,23 @@ Verify:
 
 ---
 
-### F9 · LaunchEngine `[ ]`
+### F9 · LaunchEngine `[DONE]`
+Built: LaunchEngine class with launch(profile, settings, onProgress) and cancel(). Ensures enough virtual desktops exist before launching. Iterates desktops → apps: launch via IPlatform dispatch (switch on app.type), positionWindow, moveWindowToDesktop. Per-app delay + globalLaunchDelayMs respected. Switches back to desktop 0 after completion. One app failing doesn't stop the rest. 7 progress event types emitted. appLabel() helper for human-readable progress messages. tsc clean.
+
 **Goal:** Orchestrate a full profile launch — desktops, apps in order, progress events.
 
 Files created:
 - `src/main/services/LaunchEngine.ts`
-  - `launch(profile: Profile, onProgress: (e: LaunchProgressEvent) => void): Promise<LaunchReport>`
+  - `launch(profile: Profile, settings: Settings, onProgress: ProgressCallback): Promise<LaunchReport>`
   - `cancel()` — sets abort flag, stops remaining launches
-  - Steps per app: emit progress → launch → find window → position window → move to desktop → wait delayMs
+  - Steps: ensure desktops → per app: emit progress → launch via IPlatform → position → move to desktop → delay
   - One app failing does not stop the rest — logged and included in report
-  - Returns `LaunchReport`: `{ success, results: Array<{ appId, ok, error? }> }`
+  - Returns `LaunchReport`: `{ success, cancelled, results: AppLaunchResult[] }`
 
 Verify:
-- [ ] Launch a profile with 2 desktops and 3 apps — all open in correct desktops and positions
-- [ ] One app with an invalid path → that app fails, others still launch
-- [ ] `cancel()` mid-launch → already-launched apps stay open, rest stops
+- [ ] Launch a profile with 2 desktops and 3 apps — all open in correct desktops and positions — requires manual run
+- [ ] One app with an invalid path → that app fails, others still launch — requires manual run
+- [ ] `cancel()` mid-launch → already-launched apps stay open, rest stops — requires manual run
 
 ---
 
@@ -915,4 +917,4 @@ Files modified:
 
 ---
 
-*Last updated: F8 complete. Platform abstraction done. Next: F9 (LaunchEngine orchestrator).*
+*Last updated: F9 complete. LaunchEngine orchestrator done. Next: F10 (Launch IPC + progress events).*
