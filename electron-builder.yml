@@ -16,9 +16,10 @@ extraResources:
   # Tray icon — accessed at runtime via process.resourcesPath
   - from: resources/icon.ico
     to: icon.ico
-  # Phase F2: uncomment when VirtualDesktopAccessor.dll is added
-  # - from: resources/VirtualDesktopAccessor.dll
-  #   to: resources/VirtualDesktopAccessor.dll
+  # VirtualDesktopAccessor.dll — accessed at runtime via process.resourcesPath
+  # Download from: https://github.com/Ciantic/VirtualDesktopAccessor/releases
+  - from: resources/VirtualDesktopAccessor.dll
+    to: VirtualDesktopAccessor.dll
 
 win:
   target:
@@ -40,4 +41,7 @@ nsis:
   shortcutName: DeskFlow
   installerIcon: resources/icon.ico
   uninstallerIcon: resources/icon.ico
+  # Running a newer installer over an existing install upgrades in-place.
+  # %APPDATA%\DeskFlow\ (profiles, settings, logs) is never removed on upgrade.
+  deleteAppDataOnUninstall: false
   # Phase I: add PATH registration for deskflow CLI command
