@@ -3,6 +3,9 @@ import { join } from 'path'
 import log from './logger'
 import { LaunchEngine } from './services/LaunchEngine'
 import { ProfileManager } from './services/ProfileManager'
+import { getWindows } from './platform/windows/SnapshotDetector'
+import { buildDraft } from './services/SnapshotService'
+import { IPC } from '@shared/ipc-channels'
 import {
   DEFAULT_TERMINAL_PATH,
   DEFAULT_LAUNCH_DELAY_MS,
@@ -87,6 +90,35 @@ async function launchFromTray(profile: Profile): Promise<void> {
   }
 }
 
+async function snapshotFromTray(): Promise<void> {
+  log.info('[Tray] snapshot triggered')
+  try {
+    const windows = await getWindows()
+    const draft = await buildDraft(windows)
+
+    // Show main window and send snapshot data
+    focusMainWindow()
+
+    // Small delay to ensure window is ready to receive events
+    setTimeout(() => {
+      for (const win of BrowserWindow.getAllWindows()) {
+        win.webContents.send(IPC.SNAPSHOT_READY, draft)
+      }
+    }, 300)
+
+    new Notification({
+      title: 'DeskFlow',
+      body: `Captured ${draft.desktops.reduce((s, d) => s + d.apps.length, 0)} apps across ${draft.desktops.length} desktop(s)`,
+    }).show()
+  } catch (e) {
+    log.error('[Tray] snapshot error', e)
+    new Notification({
+      title: 'DeskFlow',
+      body: `Snapshot failed: ${e instanceof Error ? e.message : String(e)}`,
+    }).show()
+  }
+}
+
 function buildMenu(profiles: Profile[]): Menu {
   const profileItems: MenuItemConstructorOptions[] =
     profiles.length > 0
@@ -98,6 +130,11 @@ function buildMenu(profiles: Profile[]): Menu {
 
   return Menu.buildFromTemplate([
     ...profileItems,
+    { type: 'separator' },
+    {
+      label: 'Snapshot current desktop...',
+      click: () => snapshotFromTray(),
+    },
     { type: 'separator' },
     {
       label: 'Open DeskFlow',

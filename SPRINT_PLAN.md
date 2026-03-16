@@ -674,20 +674,24 @@ Verify:
 
 ---
 
-### G3 · Snapshot IPC + tray trigger `[ ]`
+### G3 · Snapshot IPC + tray trigger `[DONE]`
+Built: snapshot.ipc.ts registers snapshot:capture handler (getWindows → buildDraft → return draft). Tray "Snapshot current desktop..." item calls snapshotFromTray() which captures, shows main window, and pushes SNAPSHOT_READY event to renderer. Native notification on success/failure. Renderer client.ts has onReady/offReady listeners for tray-triggered snapshots. tsc clean.
+
 **Goal:** Wire snapshot to IPC and tray menu.
 
 Files created:
 - `src/main/ipc/snapshot.ipc.ts`
-  - `snapshot:capture` handler — calls `SnapshotDetector.getWindows()` → `SnapshotService.buildDraft()` → returns draft
+  - `snapshot:capture` handler — getWindows() → buildDraft() → return ProfileDraft
 
 Files modified:
-- `src/main/tray.ts` — add "Snapshot current desktop..." menu item → calls snapshot IPC → opens main window
-- `src/renderer/ipc/client.ts` — add `snapshot.capture()`
+- `src/shared/ipc-channels.ts` — added SNAPSHOT_READY push event channel
+- `src/main/tray.ts` — "Snapshot current desktop..." menu item, snapshotFromTray(), Notification
+- `src/main/index.ts` — register snapshot handlers
+- `src/renderer/ipc/client.ts` — snapshot.onReady/offReady listeners
 
 Verify:
-- [ ] `snapshot:capture` IPC call returns a populated ProfileDraft
-- [ ] Tray menu item triggers snapshot and opens main window
+- [ ] `snapshot:capture` IPC call returns a populated ProfileDraft — requires manual run
+- [ ] Tray menu item triggers snapshot and opens main window — requires manual run
 
 ---
 
@@ -930,4 +934,4 @@ Files modified:
 
 ---
 
-*Last updated: G2 complete. Next: G3 (Snapshot IPC + tray trigger).*
+*Last updated: G3 complete. Next: G4 (Snapshot review page UI).*

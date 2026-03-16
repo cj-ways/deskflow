@@ -4,6 +4,7 @@ import { join } from 'path'
 import { registerProfileHandlers } from './ipc/profiles.ipc'
 import { registerDialogHandlers } from './ipc/dialog.ipc'
 import { registerLaunchHandlers } from './ipc/launch.ipc'
+import { registerSnapshotHandlers } from './ipc/snapshot.ipc'
 import { registerUpdaterHandlers } from './ipc/updater.ipc'
 import { AutoUpdater } from './services/AutoUpdater'
 import { initTray } from './tray'
@@ -83,6 +84,7 @@ if (!app.requestSingleInstanceLock()) {
     registerProfileHandlers()
     registerDialogHandlers()
     registerLaunchHandlers()
+    registerSnapshotHandlers()
     registerUpdaterHandlers()
     const profiles = await ProfileManager.getAll()
     initTray(profiles)

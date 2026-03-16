@@ -41,6 +41,7 @@ export const IPC = {
 
   // Snapshot
   SNAPSHOT_CAPTURE: 'snapshot:capture',
+  SNAPSHOT_READY: 'snapshot:ready', // push event: main → renderer (tray-triggered snapshot)
 
   // Settings
   SETTINGS_GET: 'settings:get',
@@ -135,4 +136,5 @@ export interface IpcChannelMap {
 export interface IpcEventMap {
   [IPC.LAUNCH_PROGRESS]: LaunchProgressEvent
   [IPC.UPDATER_STATUS]: UpdateState
+  [IPC.SNAPSHOT_READY]: ProfileDraft
 }

@@ -42,6 +42,10 @@ const launch = {
 const snapshot = {
   capture: (): Promise<import('@shared/ipc-channels').IpcChannelMap['snapshot:capture']['res']> =>
     window.api.invoke(IPC.SNAPSHOT_CAPTURE),
+  onReady: (listener: (draft: ProfileDraft) => void) =>
+    window.api.on(IPC.SNAPSHOT_READY, listener),
+  offReady: (listener: (draft: ProfileDraft) => void) =>
+    window.api.off(IPC.SNAPSHOT_READY, listener),
 }
 
 // ─── Settings ────────────────────────────────────────────────────────────────
