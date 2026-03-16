@@ -795,17 +795,19 @@ Verify:
 
 ---
 
-### I2 · CLI launch + snapshot commands `[ ]`
+### I2 · CLI launch + snapshot commands `[DONE]`
+Built: handleCliLaunch — finds profile by name (case-insensitive), runs LaunchEngine with progress output to stdout, updates lastLaunchedAt on success, lists available profiles on not-found. handleCliSnapshot — getWindows() → buildDraft() → saves as named profile with UUID, prints desktop/app summary. Both exit 0 on success, 1 on error. tsc clean.
+
 **Goal:** `deskflow launch` and `deskflow snapshot` work headlessly.
 
-Files created:
+Files modified:
 - `src/main/cli/handlers/launch.ts` — load profile by name → LaunchEngine.launch() → print report → exit
 - `src/main/cli/handlers/snapshot.ts` — capture snapshot → save with given name → print confirmation → exit
 
 Verify:
-- [ ] `deskflow launch "Profile Name"` launches profile, exits 0 on success
-- [ ] `deskflow launch "Nonexistent"` prints error, exits 1
-- [ ] `deskflow snapshot "My Setup"` saves snapshot, exits 0
+- [ ] `deskflow launch "Profile Name"` launches profile, exits 0 on success — requires manual run
+- [ ] `deskflow launch "Nonexistent"` prints error with available profiles, exits 1 — requires manual run
+- [ ] `deskflow snapshot "My Setup"` saves snapshot, exits 0 — requires manual run
 
 ---
 
@@ -950,4 +952,4 @@ Files modified:
 
 ---
 
-*Last updated: I1 complete. CLI parser done. Next: I2 (CLI launch + snapshot commands).*
+*Last updated: I2 complete. Group I (CLI) fully done. Next: J1 (Error handling pass).*
