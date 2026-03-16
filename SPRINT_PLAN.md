@@ -567,21 +567,25 @@ Verify:
 
 ---
 
-### F10 · Launch IPC + progress events `[ ]`
+### F10 · Launch IPC + progress events `[DONE]`
+Built: launch.ipc.ts registers launch:start and launch:cancel handlers. launch:start loads profile by id, uses default settings (until H1 SettingsManager), runs LaunchEngine asynchronously, broadcasts progress events to all BrowserWindows via webContents.send. Updates lastLaunchedAt on success. Cancels any in-progress launch before starting new one. Renderer client.ts already had launch wrappers from A5. tsc clean.
+
 **Goal:** Wire LaunchEngine to IPC so renderer can trigger launch and receive progress.
 
 Files created:
 - `src/main/ipc/launch.ipc.ts`
-  - `launch:start` handler — starts LaunchEngine, sends progress via `win.webContents.send('launch:progress', event)`
+  - `launch:start` handler — loads profile, starts LaunchEngine async, sends progress via `webContents.send`
   - `launch:cancel` handler — calls `engine.cancel()`
+  - Default settings fallback until SettingsManager (H1) exists
 
 Files modified:
-- `src/renderer/ipc/client.ts` — add `launch.start(profileId)`, `launch.cancel()`, `launch.onProgress(cb)`
+- `src/main/index.ts` — register launch handlers
+- `src/renderer/ipc/client.ts` — launch wrappers already existed from A5
 
 Verify:
-- [ ] Calling `launch:start` from renderer DevTools triggers a real launch
-- [ ] Progress events arrive in renderer (visible in console)
-- [ ] `launch:cancel` stops the launch
+- [ ] Calling `launch:start` from renderer DevTools triggers a real launch — requires manual run
+- [ ] Progress events arrive in renderer (visible in console) — requires manual run
+- [ ] `launch:cancel` stops the launch — requires manual run
 
 ---
 
@@ -917,4 +921,4 @@ Files modified:
 
 ---
 
-*Last updated: F9 complete. LaunchEngine orchestrator done. Next: F10 (Launch IPC + progress events).*
+*Last updated: F10 complete. Launch IPC wired. Next: F11 (Launch progress modal UI).*

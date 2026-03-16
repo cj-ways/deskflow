@@ -3,6 +3,7 @@ import { app, BrowserWindow, Menu, nativeImage } from 'electron'
 import { join } from 'path'
 import { registerProfileHandlers } from './ipc/profiles.ipc'
 import { registerDialogHandlers } from './ipc/dialog.ipc'
+import { registerLaunchHandlers } from './ipc/launch.ipc'
 import { registerUpdaterHandlers } from './ipc/updater.ipc'
 import { AutoUpdater } from './services/AutoUpdater'
 import { initTray } from './tray'
@@ -81,6 +82,7 @@ if (!app.requestSingleInstanceLock()) {
     Menu.setApplicationMenu(null)
     registerProfileHandlers()
     registerDialogHandlers()
+    registerLaunchHandlers()
     registerUpdaterHandlers()
     const profiles = await ProfileManager.getAll()
     initTray(profiles)
