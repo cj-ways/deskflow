@@ -10,6 +10,7 @@ export default function ProfileList() {
   const [profiles, setProfiles] = useState<Profile[] | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [launchingProfile, setLaunchingProfile] = useState<Profile | null>(null)
+  const [snapshotting, setSnapshotting] = useState(false)
 
   const loadProfiles = useCallback(async () => {
     setError(null)
@@ -34,6 +35,23 @@ export default function ProfileList() {
     }
   }
 
+  const handleSnapshot = async () => {
+    setSnapshotting(true)
+    setError(null)
+    try {
+      const res = await ipc.snapshot.capture()
+      if (res.success) {
+        navigate('/snapshot', { state: res.data })
+      } else {
+        setError(res.error)
+      }
+    } catch (e) {
+      setError(String(e))
+    } finally {
+      setSnapshotting(false)
+    }
+  }
+
   const handleDuplicate = async (id: string) => {
     const res = await ipc.profiles.duplicate(id)
     if (res.success) {
@@ -52,12 +70,21 @@ export default function ProfileList() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-semibold text-gray-900">Profiles</h1>
-        <button
-          onClick={() => navigate('/profile/new')}
-          className="px-4 py-2 text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition-colors"
-        >
-          + New Profile
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={handleSnapshot}
+            disabled={snapshotting}
+            className="px-4 py-2 text-sm font-medium rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
+          >
+            {snapshotting ? 'Scanning...' : 'Snapshot'}
+          </button>
+          <button
+            onClick={() => navigate('/profile/new')}
+            className="px-4 py-2 text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition-colors"
+          >
+            + New Profile
+          </button>
+        </div>
       </div>
 
       {/* Error banner */}

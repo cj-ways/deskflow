@@ -1,5 +1,8 @@
-import { NavLink, Outlet } from 'react-router-dom'
+import { useEffect, useCallback } from 'react'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { ipc } from '@renderer/ipc/client'
 import UpdateBanner from './UpdateBanner'
+import type { ProfileDraft } from '@shared/types'
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `flex items-center gap-2 px-3 py-2 mx-2 rounded-md text-sm font-medium transition-colors ${
@@ -9,6 +12,20 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   }`
 
 export default function Layout() {
+  const navigate = useNavigate()
+
+  const handleSnapshotReady = useCallback(
+    (draft: ProfileDraft) => {
+      navigate('/snapshot', { state: draft })
+    },
+    [navigate],
+  )
+
+  useEffect(() => {
+    ipc.snapshot.onReady(handleSnapshotReady)
+    return () => ipc.snapshot.offReady(handleSnapshotReady)
+  }, [handleSnapshotReady])
+
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
       {/* Sidebar */}

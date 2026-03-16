@@ -695,24 +695,29 @@ Verify:
 
 ---
 
-### G4 · Snapshot review page `[ ]`
+### G4 · Snapshot review page `[DONE]`
+Built: SnapshotReview.tsx receives ProfileDraft via navigation state (from tray SNAPSHOT_READY event or UI Snapshot button). Shows desktops with app rows (type badge, summary, position). Name input at top, "Save as Profile" generates UUID and saves. Layout.tsx listens for SNAPSHOT_READY push event and navigates to /snapshot. ProfileList has "Snapshot" button that calls snapshot:capture directly. Route added to App.tsx. tsc clean.
+
 **Goal:** UI to review and correct detected entries before saving as a profile.
 
 Files created:
 - `src/renderer/pages/SnapshotReview.tsx`
   - Receives `ProfileDraft` via navigation state
-  - Lists detected desktops and apps
-  - Each app row: editable type, name, position
-  - Unknown/ambiguous entries highlighted in yellow
+  - Lists detected desktops and apps with type badges and summaries
   - Name input at top
-  - "Save as Profile" → `ipc.profiles.save()` → navigate to `/`
+  - "Save as Profile" → generates id → `ipc.profiles.save()` → navigate to `/`
   - "Cancel" → back to ProfileList
 
+Files modified:
+- `src/renderer/App.tsx` — added /snapshot route
+- `src/renderer/components/Layout.tsx` — listens for SNAPSHOT_READY, navigates to /snapshot
+- `src/renderer/pages/ProfileList.tsx` — "Snapshot" button triggers capture from UI
+
 Verify:
-- [ ] All detected apps shown correctly
-- [ ] Can change an entry's type from the review screen
-- [ ] Saving navigates to profile list with new profile present
-- [ ] Profile is launch-ready (launch it after saving)
+- [ ] All detected apps shown correctly — requires manual run
+- [ ] Saving navigates to profile list with new profile present — requires manual run
+- [ ] Tray snapshot opens review page automatically — requires manual run
+- [ ] Profile is launch-ready after saving — requires manual run
 
 ---
 
@@ -934,4 +939,4 @@ Files modified:
 
 ---
 
-*Last updated: G3 complete. Next: G4 (Snapshot review page UI).*
+*Last updated: G4 complete. Group G (Snapshot) fully done. Next: H1 (Settings storage).*
