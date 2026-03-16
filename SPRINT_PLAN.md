@@ -614,17 +614,20 @@ Verify:
 
 ---
 
-### F12 · Enable tray launch `[ ]`
+### F12 · Enable tray launch `[DONE]`
+Built: Tray profile items now call launchFromTray() which creates a LaunchEngine, runs the profile, updates lastLaunchedAt on success, and shows a native OS Notification for success/cancelled/error outcomes. Also forwards progress events to open renderer windows. tsc clean.
+
 **Goal:** Tray menu profile items now actually launch profiles.
 
 Files modified:
 - `src/main/tray.ts`
-  - Profile menu items call `LaunchEngine.launch(profile)`
-  - Show a native OS notification on launch complete/failed
+  - Profile menu items call `launchFromTray(profile)` on click
+  - `launchFromTray()` runs LaunchEngine, shows Notification on complete/cancel/error
+  - Updates lastLaunchedAt and forwards progress events to renderer
 
 Verify:
-- [ ] Right-click tray → profile name → profile launches
-- [ ] OS notification appears on completion
+- [ ] Right-click tray → profile name → profile launches — requires manual run
+- [ ] OS notification appears on completion — requires manual run
 
 ---
 
@@ -923,4 +926,4 @@ Files modified:
 
 ---
 
-*Last updated: F11 complete. Launch UI done. Next: F12 (Enable tray launch).*
+*Last updated: F12 complete. Group F (Launch Engine) fully done. Next: G1 (SnapshotDetector).*
