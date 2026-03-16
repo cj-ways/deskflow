@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom'
+import UpdateBanner from './UpdateBanner'
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `flex items-center gap-2 px-3 py-2 mx-2 rounded-md text-sm font-medium transition-colors ${
@@ -27,8 +28,11 @@ export default function Layout() {
       </nav>
 
       {/* Main content */}
-      <main className="flex-1 overflow-auto">
-        <Outlet />
+      <main className="flex-1 flex flex-col overflow-hidden">
+        <UpdateBanner />
+        <div className="flex-1 overflow-auto">
+          <Outlet />
+        </div>
       </main>
     </div>
   )

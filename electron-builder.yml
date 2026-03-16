@@ -44,4 +44,16 @@ nsis:
   # Running a newer installer over an existing install upgrades in-place.
   # %APPDATA%\DeskFlow\ (profiles, settings, logs) is never removed on upgrade.
   deleteAppDataOnUninstall: false
-  # Phase I: add PATH registration for deskflow CLI command
+  # Custom NSIS script — branded pages, user-data prompt on uninstall
+  include: build/installer.nsh
+  installerSidebar: build/installerSidebar.bmp
+  uninstallerSidebar: build/installerSidebar.bmp
+  installerHeader: build/installerHeader.bmp
+  license: LICENSE
+
+# Auto-update: electron-updater checks GitHub Releases for latest.yml
+publish:
+  provider: github
+  owner: deskflow
+  repo: deskflow
+  releaseType: release

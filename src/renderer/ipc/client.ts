@@ -6,7 +6,7 @@
  */
 
 import { IPC } from '@shared/ipc-channels'
-import type { Profile, ProfileDraft, Settings } from '@shared/types'
+import type { Profile, ProfileDraft, Settings, UpdateState } from '@shared/types'
 import type { LaunchProgressEvent, FileFilter } from '@shared/types'
 
 // ─── Profiles ────────────────────────────────────────────────────────────────
@@ -53,9 +53,20 @@ const settings = {
   detectBrowserPath: () => window.api.invoke(IPC.SETTINGS_DETECT_BROWSER_PATH),
 }
 
+// ─── Updater ────────────────────────────────────────────────────────────────
+
+const updater = {
+  check: () => window.api.invoke(IPC.UPDATER_CHECK),
+  install: () => window.api.invoke(IPC.UPDATER_INSTALL),
+  onStatus: (listener: (state: UpdateState) => void) =>
+    window.api.on(IPC.UPDATER_STATUS, listener),
+  offStatus: (listener: (state: UpdateState) => void) =>
+    window.api.off(IPC.UPDATER_STATUS, listener),
+}
+
 // ─── Unified export ───────────────────────────────────────────────────────────
 
-export const ipc = { profiles, dialog, launch, snapshot, settings }
+export const ipc = { profiles, dialog, launch, snapshot, settings, updater }
 
 // Re-export types components commonly need
-export type { Profile, ProfileDraft, Settings, LaunchProgressEvent, FileFilter }
+export type { Profile, ProfileDraft, Settings, LaunchProgressEvent, FileFilter, UpdateState }

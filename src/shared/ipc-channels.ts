@@ -12,6 +12,7 @@ import type {
   ProfileDraft,
   Settings,
   LaunchProgressEvent,
+  UpdateState,
   IpcDataResponse,
   IpcVoidResponse,
   FileFilter,
@@ -46,6 +47,11 @@ export const IPC = {
   SETTINGS_SAVE: 'settings:save',
   SETTINGS_DETECT_IDE_PATH: 'settings:detectIdePath',
   SETTINGS_DETECT_BROWSER_PATH: 'settings:detectBrowserPath',
+
+  // Auto-updater
+  UPDATER_CHECK: 'updater:check',
+  UPDATER_INSTALL: 'updater:install',
+  UPDATER_STATUS: 'updater:status', // push event: main → renderer
 } as const
 
 /** Union of all valid IPC channel strings */
@@ -112,6 +118,14 @@ export interface IpcChannelMap {
     req: void
     res: IpcDataResponse<string | null>
   }
+  [IPC.UPDATER_CHECK]: {
+    req: void
+    res: IpcVoidResponse
+  }
+  [IPC.UPDATER_INSTALL]: {
+    req: void
+    res: IpcVoidResponse
+  }
 }
 
 // ─── Push event map (main → renderer) ────────────────────────────────────────
@@ -120,4 +134,5 @@ export interface IpcChannelMap {
 
 export interface IpcEventMap {
   [IPC.LAUNCH_PROGRESS]: LaunchProgressEvent
+  [IPC.UPDATER_STATUS]: UpdateState
 }

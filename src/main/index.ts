@@ -1,13 +1,21 @@
 import log from './logger'
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, Menu, nativeImage } from 'electron'
 import { join } from 'path'
 import { registerProfileHandlers } from './ipc/profiles.ipc'
 import { registerDialogHandlers } from './ipc/dialog.ipc'
+import { registerUpdaterHandlers } from './ipc/updater.ipc'
+import { AutoUpdater } from './services/AutoUpdater'
 import { initTray } from './tray'
 import { ProfileManager } from './services/ProfileManager'
 import { APP_BUNDLE_ID } from '@shared/constants'
 
 let mainWindow: BrowserWindow | null = null
+
+function getIconPath(): string {
+  return app.isPackaged
+    ? join(process.resourcesPath, 'icon.ico')
+    : join(__dirname, '../../resources/icon.ico')
+}
 
 // Set to true before calling app.quit() so the close handler lets it through
 let isQuitting = false
@@ -25,6 +33,7 @@ function createWindow(): void {
   mainWindow = new BrowserWindow({
     width: 1000,
     height: 700,
+    icon: nativeImage.createFromPath(getIconPath()),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       nodeIntegration: false,
@@ -69,11 +78,14 @@ if (!app.requestSingleInstanceLock()) {
 
   app.whenReady().then(async () => {
     log.info('app ready')
+    Menu.setApplicationMenu(null)
     registerProfileHandlers()
     registerDialogHandlers()
+    registerUpdaterHandlers()
     const profiles = await ProfileManager.getAll()
     initTray(profiles)
     createWindow()
+    AutoUpdater.init()
 
     app.on('activate', () => {
       if (BrowserWindow.getAllWindows().length === 0) {
