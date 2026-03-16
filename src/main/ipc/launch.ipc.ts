@@ -2,32 +2,12 @@ import { BrowserWindow, ipcMain } from 'electron'
 import log from '../logger'
 import { IPC } from '@shared/ipc-channels'
 import { ProfileManager } from '../services/ProfileManager'
+import { SettingsManager } from '../services/SettingsManager'
 import { LaunchEngine } from '../services/LaunchEngine'
-import type { Settings, IpcVoidResponse } from '@shared/types'
-import {
-  DEFAULT_TERMINAL_PATH,
-  DEFAULT_LAUNCH_DELAY_MS,
-  DEFAULT_THEME,
-} from '@shared/constants'
+import type { IpcVoidResponse } from '@shared/types'
 
 function errMsg(err: unknown): string {
   return err instanceof Error ? err.message : String(err)
-}
-
-/**
- * Default settings used until SettingsManager (H1) is implemented.
- * VS Code and Chrome paths are best-effort defaults for Windows.
- */
-function getDefaultSettings(): Settings {
-  return {
-    idePath: 'code',
-    browserPath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-    terminalPath: DEFAULT_TERMINAL_PATH,
-    startWithWindows: false,
-    minimizeToTray: true,
-    globalLaunchDelayMs: DEFAULT_LAUNCH_DELAY_MS,
-    theme: DEFAULT_THEME,
-  }
 }
 
 let engine: LaunchEngine | null = null
@@ -44,8 +24,7 @@ export function registerLaunchHandlers(): void {
         return { success: false, error: `Profile not found: ${profileId}` }
       }
 
-      // TODO: Replace with SettingsManager.get() in H1
-      const settings = getDefaultSettings()
+      const settings = await SettingsManager.get()
 
       // Cancel any in-progress launch
       if (engine) {

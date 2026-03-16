@@ -723,23 +723,25 @@ Verify:
 
 ## Group H — Settings
 
-### H1 · Settings storage `[ ]`
+### H1 · Settings storage `[DONE]`
+Built: SettingsManager with get/save (merge partial)/detectIdePath/detectBrowserPath. Zod schema validation, falls back to defaults on invalid. Auto-detect checks common install paths + PATH for VS Code, Chrome/Edge/Firefox for browser. settings.ipc.ts with 4 handlers. Replaced getDefaultSettings() in launch.ipc.ts and tray.ts with SettingsManager.get(). tsc clean.
+
 **Goal:** Settings read/write service with auto-detection of VS Code and Chrome paths.
 
 Files created:
-- `src/main/services/SettingsManager.ts`
-  - `get(): Promise<Settings>`
-  - `save(s: Partial<Settings>): Promise<Settings>` — merges with defaults
-  - `detectIdePath(): Promise<string | null>` — checks registry + common paths
-  - `detectBrowserPath(): Promise<string | null>` — same
-  - Stored in `%APPDATA%\DeskFlow\settings.json`
-  - Zod schema validation on read — fall back to defaults if invalid
-- `src/main/ipc/settings.ipc.ts` — `settings:get` and `settings:save` handlers
+- `src/main/services/SettingsManager.ts` — get, save (partial merge), detectIdePath, detectBrowserPath
+- `src/main/services/settings.schema.ts` — zod schema for Settings
+- `src/main/ipc/settings.ipc.ts` — settings:get, settings:save, settings:detectIdePath, settings:detectBrowserPath
+
+Files modified:
+- `src/main/index.ts` — register settings handlers
+- `src/main/ipc/launch.ipc.ts` — replaced getDefaultSettings() with SettingsManager.get()
+- `src/main/tray.ts` — replaced getDefaultSettings() with SettingsManager.get()
 
 Verify:
-- [ ] First launch → settings file created with defaults
-- [ ] `detectIdePath()` finds VS Code if installed
-- [ ] Save partial settings → merges, doesn't overwrite unrelated keys
+- [ ] First launch → settings file created with defaults — requires manual run
+- [ ] `detectIdePath()` finds VS Code if installed — requires manual run
+- [ ] Save partial settings → merges, doesn't overwrite unrelated keys — requires manual run
 
 ---
 
@@ -939,4 +941,4 @@ Files modified:
 
 ---
 
-*Last updated: G4 complete. Group G (Snapshot) fully done. Next: H1 (Settings storage).*
+*Last updated: H1 complete. Settings storage + auto-detect done. Next: H2 (Settings UI page).*

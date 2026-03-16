@@ -3,33 +3,14 @@ import { join } from 'path'
 import log from './logger'
 import { LaunchEngine } from './services/LaunchEngine'
 import { ProfileManager } from './services/ProfileManager'
+import { SettingsManager } from './services/SettingsManager'
 import { getWindows } from './platform/windows/SnapshotDetector'
 import { buildDraft } from './services/SnapshotService'
 import { IPC } from '@shared/ipc-channels'
-import {
-  DEFAULT_TERMINAL_PATH,
-  DEFAULT_LAUNCH_DELAY_MS,
-  DEFAULT_THEME,
-} from '@shared/constants'
-import type { Profile, Settings } from '@shared/types'
+import type { Profile } from '@shared/types'
 import type { MenuItemConstructorOptions } from 'electron'
 
 let tray: Tray | null = null
-
-/**
- * Default settings used until SettingsManager (H1) is implemented.
- */
-function getDefaultSettings(): Settings {
-  return {
-    idePath: 'code',
-    browserPath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-    terminalPath: DEFAULT_TERMINAL_PATH,
-    startWithWindows: false,
-    minimizeToTray: true,
-    globalLaunchDelayMs: DEFAULT_LAUNCH_DELAY_MS,
-    theme: DEFAULT_THEME,
-  }
-}
 
 function getIconPath(): string {
   // Packaged: icon is copied to resourcesPath via extraResources in electron-builder.yml
@@ -51,7 +32,7 @@ function focusMainWindow(): void {
 async function launchFromTray(profile: Profile): Promise<void> {
   log.info(`[Tray] launching profile="${profile.name}"`)
   const engine = new LaunchEngine()
-  const settings = getDefaultSettings() // TODO: Replace with SettingsManager.get() in H1
+  const settings = await SettingsManager.get()
 
   try {
     const report = await engine.launch(profile, settings, (event) => {
