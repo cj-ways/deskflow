@@ -771,7 +771,9 @@ Verify:
 
 ## Group I — CLI
 
-### I1 · CLI argument parser `[ ]`
+### I1 · CLI argument parser `[DONE]`
+Built: parseCli() returns { mode: 'gui' } or { mode: 'cli', run } based on process.argv. Handles --help, --version, list (inline), launch/snapshot (dynamic import to I2 handler stubs), open (falls through to GUI), unknown commands. Integrated in index.ts — CLI mode runs headlessly via app.whenReady() then app.exit(code), skipping window/tray/IPC setup. tsc clean.
+
 **Goal:** Parse process.argv in Electron main and route to the right handler.
 
 Files created:
@@ -779,12 +781,17 @@ Files created:
   - Parses `process.argv` for: `launch`, `list`, `snapshot`, `open`, `--version`, `--help`
   - If CLI command detected: run it headlessly (no window), exit when done
   - If no command: normal app startup
+- `src/main/cli/handlers/launch.ts` — stub for I2
+- `src/main/cli/handlers/snapshot.ts` — stub for I2
+
+Files modified:
+- `src/main/index.ts` — CLI check before single-instance lock; CLI mode skips GUI entirely
 
 Verify:
-- [ ] `deskflow --help` prints usage to stdout and exits 0
-- [ ] `deskflow --version` prints version and exits 0
-- [ ] `deskflow list` prints profile names and exits 0
-- [ ] Running with no args → normal app starts
+- [ ] `deskflow --help` prints usage to stdout and exits 0 — requires manual run
+- [ ] `deskflow --version` prints version and exits 0 — requires manual run
+- [ ] `deskflow list` prints profile names and exits 0 — requires manual run
+- [ ] Running with no args → normal app starts — requires manual run
 
 ---
 
@@ -943,4 +950,4 @@ Files modified:
 
 ---
 
-*Last updated: H2 complete. Group H (Settings) fully done. Next: I1 (CLI argument parser).*
+*Last updated: I1 complete. CLI parser done. Next: I2 (CLI launch + snapshot commands).*

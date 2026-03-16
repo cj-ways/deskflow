@@ -11,6 +11,7 @@ import { AutoUpdater } from './services/AutoUpdater'
 import { initTray } from './tray'
 import { ProfileManager } from './services/ProfileManager'
 import { APP_BUNDLE_ID } from '@shared/constants'
+import { parseCli } from './cli'
 
 let mainWindow: BrowserWindow | null = null
 
@@ -60,6 +61,18 @@ function createWindow(): void {
   }
 }
 
+// ─── CLI Check ────────────────────────────────────────────────────────────────
+// Parse argv before anything else. If a CLI command is detected, run it
+// headlessly and exit — no window, no tray, no IPC handlers.
+
+const cli = parseCli()
+
+if (cli.mode === 'cli') {
+  app.whenReady().then(async () => {
+    const code = await cli.run()
+    app.exit(code)
+  })
+} else {
 // ─── Single-instance lock ─────────────────────────────────────────────────────
 // Must be called before app.whenReady(). Returns false if another instance owns
 // the lock — in that case the second instance quits immediately.
@@ -108,3 +121,4 @@ if (!app.requestSingleInstanceLock()) {
     }
   })
 }
+} // end CLI else (GUI mode)
