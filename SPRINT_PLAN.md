@@ -873,17 +873,20 @@ Verify:
 
 ---
 
-### J4 · CI pipeline `[ ]`
+### J4 · CI pipeline `[DONE]`
+Built: .github/workflows/ci.yml — triggers on PRs to main, runs on windows-latest, checkout → setup Node 20 with npm cache → npm ci → npm run lint → npm run typecheck.
+
 **Goal:** Every PR runs lint + type-check automatically.
 
 Files created:
 - `.github/workflows/ci.yml`
   - Trigger: PR to main
-  - Steps: checkout → setup Node → `npm ci` → `npm run lint` → `tsc --noEmit`
+  - Runner: windows-latest
+  - Steps: checkout → setup Node 20 → `npm ci` → `npm run lint` → `npm run typecheck`
 
 Verify:
-- [ ] Open a test PR → workflow runs and passes
-- [ ] Introduce a type error → workflow fails
+- [ ] Open a test PR → workflow runs and passes — requires push + PR
+- [ ] Introduce a type error → workflow fails — requires push + PR
 
 ---
 
@@ -960,4 +963,4 @@ Files modified:
 
 ---
 
-*Last updated: J3 complete. GitHub repo scaffolding done. Next: J4 (CI pipeline).*
+*Last updated: J4 complete. CI pipeline done. Next: J5 (Release pipeline + v1.0.0).*
