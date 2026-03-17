@@ -851,21 +851,25 @@ Verify:
 
 ---
 
-### J3 · GitHub repo setup `[ ]`
+### J3 · GitHub repo setup `[DONE]`
+Built: CONTRIBUTING.md with dev setup, project structure, branch conventions, code standards, PR process. CHANGELOG.md in Keep-a-Changelog format with full v1.0.0 feature list. GitHub issue templates (bug report + feature request) and PR template. LICENSE already existed from OOB1. tsc and ESLint clean.
+
 **Goal:** Public GitHub repo ready for open-source contributions.
 
 Files created:
-- `LICENSE` — MIT
 - `CONTRIBUTING.md` — dev setup, branch conventions, PR process
 - `CHANGELOG.md` — Keep-a-changelog format, initial v1.0.0 entry
 - `.github/ISSUE_TEMPLATE/bug_report.md`
 - `.github/ISSUE_TEMPLATE/feature_request.md`
 - `.github/PULL_REQUEST_TEMPLATE.md`
 
+Already existed:
+- `LICENSE` — MIT (created in OOB1)
+
 Verify:
-- [ ] Repo is public on GitHub
-- [ ] README renders correctly on GitHub
-- [ ] Issue templates appear when opening a new issue
+- [ ] Repo is public on GitHub — requires manual setup
+- [ ] README renders correctly on GitHub — requires push
+- [ ] Issue templates appear when opening a new issue — requires push
 
 ---
 
@@ -956,4 +960,4 @@ Files modified:
 
 ---
 
-*Last updated: J2 complete. Keyboard navigation done. Next: J3 (GitHub repo setup).*
+*Last updated: J3 complete. GitHub repo scaffolding done. Next: J4 (CI pipeline).*
