@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { ipc } from '@renderer/ipc/client'
-import type { ProfileDraft, AppEntry } from '@shared/types'
+import AppEntryModal from '../components/AppEntryModal'
+import type { ProfileDraft, AppEntry, Desktop } from '@shared/types'
 
 const TYPE_BADGE: Record<string, string> = {
   ide: 'bg-indigo-100 text-indigo-700',
@@ -40,10 +41,14 @@ export default function SnapshotReview() {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const draft = location.state as ProfileDraft | undefined
+  const initialDraft = location.state as ProfileDraft | undefined
+
+  // Task 4.1: mutable draft state initialized from location state
+  const [draft, setDraft] = useState<ProfileDraft | undefined>(initialDraft)
   const [name, setName] = useState('')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [editingEntry, setEditingEntry] = useState<{ desktopIndex: number; entry: AppEntry } | null>(null)
 
   if (!draft) {
     return (
@@ -60,7 +65,35 @@ export default function SnapshotReview() {
     )
   }
 
+  // Task 4.5: recompute from current draft state
   const totalApps = draft.desktops.reduce((s, d) => s + d.apps.length, 0)
+
+  // Task 4.4: delete an app entry from a desktop
+  const handleDelete = (desktopIndex: number, appId: string) => {
+    setDraft({
+      ...draft,
+      desktops: draft.desktops.map((d) =>
+        d.index === desktopIndex
+          ? { ...d, apps: d.apps.filter((a) => a.id !== appId) }
+          : d,
+      ),
+    })
+  }
+
+  // Task 4.3: save edited entry back into draft
+  const handleEditSave = (updated: AppEntry) => {
+    if (!editingEntry) return
+    const { desktopIndex } = editingEntry
+    setDraft({
+      ...draft,
+      desktops: draft.desktops.map((d: Desktop) =>
+        d.index === desktopIndex
+          ? { ...d, apps: d.apps.map((a) => (a.id === updated.id ? updated : a)) }
+          : d,
+      ),
+    })
+    setEditingEntry(null)
+  }
 
   const handleSave = async () => {
     if (!name.trim()) {
@@ -93,7 +126,7 @@ export default function SnapshotReview() {
   return (
     <div className="flex flex-col h-full">
       {/* Top bar */}
-      <div className="flex items-center gap-4 px-6 py-4 border-b border-gray-200 bg-white shrink-0">
+      <div className="flex items-center gap-4 px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shrink-0">
         <button
           type="button"
           onClick={() => navigate('/')}
@@ -108,7 +141,7 @@ export default function SnapshotReview() {
           onChange={(e) => setName(e.target.value)}
           placeholder="Name this snapshot..."
           autoFocus
-          className="flex-1 min-w-0 text-lg font-semibold text-gray-900 bg-transparent border-b-2 border-transparent hover:border-gray-200 focus:border-indigo-400 focus:outline-none px-1 py-0.5 transition-colors"
+          className="flex-1 min-w-0 text-lg font-semibold text-gray-900 dark:text-gray-100 bg-transparent border-b-2 border-transparent hover:border-gray-200 focus:border-indigo-400 focus:outline-none px-1 py-0.5 transition-colors"
         />
 
         <span className="text-xs text-gray-400 shrink-0">
@@ -137,11 +170,11 @@ export default function SnapshotReview() {
         {draft.desktops.map((desktop) => (
           <div
             key={desktop.index}
-            className="border border-gray-200 rounded-lg bg-white overflow-hidden"
+            className="border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 overflow-hidden"
           >
             {/* Desktop header */}
-            <div className="flex items-center gap-3 px-4 py-3 bg-gray-50 border-b border-gray-200">
-              <span className="text-sm font-semibold text-gray-700">
+            <div className="flex items-center gap-3 px-4 py-3 bg-gray-50 dark:bg-gray-750 border-b border-gray-200 dark:border-gray-700">
+              <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                 {desktop.name}
               </span>
               <span className="text-xs text-gray-400">
@@ -150,7 +183,7 @@ export default function SnapshotReview() {
             </div>
 
             {/* App rows */}
-            <div className="divide-y divide-gray-100">
+            <div className="divide-y divide-gray-100 dark:divide-gray-700">
               {desktop.apps.map((app) => (
                 <div
                   key={app.id}
@@ -164,7 +197,7 @@ export default function SnapshotReview() {
                   </span>
 
                   {/* Summary */}
-                  <span className="flex-1 text-sm text-gray-700 truncate font-mono">
+                  <span className="flex-1 text-sm text-gray-700 dark:text-gray-300 truncate font-mono">
                     {entrySummary(app)}
                   </span>
 
@@ -172,6 +205,22 @@ export default function SnapshotReview() {
                   <span className="shrink-0 text-xs text-gray-400">
                     {positionLabel(app.position)}
                   </span>
+
+                  {/* Task 4.2: Edit and Delete buttons */}
+                  <button
+                    type="button"
+                    onClick={() => setEditingEntry({ desktopIndex: desktop.index, entry: app })}
+                    className="shrink-0 px-2 py-1 text-xs font-medium rounded text-indigo-600 hover:bg-indigo-50 transition-colors"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(desktop.index, app.id)}
+                    className="shrink-0 px-2 py-1 text-xs font-medium rounded text-red-600 hover:bg-red-50 transition-colors"
+                  >
+                    Delete
+                  </button>
                 </div>
               ))}
 
@@ -190,6 +239,15 @@ export default function SnapshotReview() {
           </p>
         )}
       </div>
+
+      {/* Task 4.3: Edit modal */}
+      {editingEntry && (
+        <AppEntryModal
+          initial={editingEntry.entry}
+          onSave={handleEditSave}
+          onClose={() => setEditingEntry(null)}
+        />
+      )}
     </div>
   )
 }
