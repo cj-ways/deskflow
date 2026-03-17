@@ -974,17 +974,18 @@ Verify:
 
 ---
 
-### K2 · Minimize to Tray `[ ]`
+### K2 · Minimize to Tray `[DONE]`
+Built: `cachedMinimizeToTray` variable in index.ts, updated via `setMinimizeToTrayCallback` from SettingsManager.applySideEffects(). Close handler checks cached value: if false, lets the close proceed (sets isQuitting=true); if true, hides to tray. Explicit `SettingsManager.get()` on startup ensures cache is primed. tsc clean.
+
 **Goal:** Make close handler respect `minimizeToTray` setting — when OFF, closing quits the app.
 
 Files modified:
-- `src/main/index.ts` — cached `minimizeToTray` value, close handler checks it
-- `src/main/ipc/settings.ipc.ts` — update cache on save
+- `src/main/index.ts` — cachedMinimizeToTray + callback registration + close handler logic + explicit settings load on startup
 
 Verify:
-- [ ] minimizeToTray OFF → close window → app quits
-- [ ] minimizeToTray ON → close window → hides to tray (current behavior)
-- [ ] Tray Quit always quits regardless of setting
+- [ ] minimizeToTray OFF → close window → app quits — requires manual run
+- [ ] minimizeToTray ON → close window → hides to tray — requires manual run
+- [ ] Tray Quit always quits regardless of setting — requires manual run
 
 ---
 
@@ -1044,4 +1045,4 @@ Verify:
 
 ---
 
-*Last updated: K1 complete. Start with Windows wired. Next: K2 (Minimize to Tray).*
+*Last updated: K2 complete. Minimize to Tray wired. Next: K3 (Theme Application).*

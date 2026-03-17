@@ -6,10 +6,10 @@
 
 ## 2. Minimize to Tray
 
-- [ ] 2.1 Add a module-level `let cachedMinimizeToTray = true` variable in `src/main/index.ts`
-- [ ] 2.2 After loading settings on startup (`SettingsManager.get()`), set `cachedMinimizeToTray` from the loaded settings
-- [ ] 2.3 Export a `updateMinimizeToTray(value: boolean)` function from `index.ts` and call it from `SettingsManager.save()` (or from settings IPC handler after save)
-- [ ] 2.4 Modify the `mainWindow.on('close')` handler: if `cachedMinimizeToTray` is false and `!isQuitting`, call `quitApp()` instead of `mainWindow.hide()`
+- [x] 2.1 Add a module-level `let cachedMinimizeToTray = true` variable in `src/main/index.ts`
+- [x] 2.2 After loading settings on startup (`SettingsManager.get()`), set `cachedMinimizeToTray` from the loaded settings
+- [x] 2.3 Export a `updateMinimizeToTray(value: boolean)` function from `index.ts` and call it from `SettingsManager.save()` (or from settings IPC handler after save)
+- [x] 2.4 Modify the `mainWindow.on('close')` handler: if `cachedMinimizeToTray` is false and `!isQuitting`, call `quitApp()` instead of `mainWindow.hide()`
 - [ ] 2.5 Verify: set minimizeToTray OFF → save → close window → app quits entirely. Set ON → close → app hides to tray.
 
 ## 3. Theme Application

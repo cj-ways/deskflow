@@ -11,6 +11,7 @@ import { AutoUpdater } from './services/AutoUpdater'
 import { initTray } from './tray'
 import { ProfileManager } from './services/ProfileManager'
 import { APP_BUNDLE_ID } from '@shared/constants'
+import { SettingsManager, setMinimizeToTrayCallback } from './services/SettingsManager'
 import { parseCli } from './cli'
 
 let mainWindow: BrowserWindow | null = null
@@ -23,6 +24,10 @@ function getIconPath(): string {
 
 // Set to true before calling app.quit() so the close handler lets it through
 let isQuitting = false
+
+// Cached from settings — read synchronously in the close handler
+let cachedMinimizeToTray = true
+setMinimizeToTrayCallback((value) => { cachedMinimizeToTray = value })
 
 export function getMainWindow(): BrowserWindow | null {
   return mainWindow
@@ -45,11 +50,16 @@ function createWindow(): void {
     },
   })
 
-  // Hide on close instead of quitting — tray (C2) is the only way to quit
+  // Close behavior depends on minimizeToTray setting
   mainWindow.on('close', (e) => {
     if (!isQuitting) {
-      e.preventDefault()
-      mainWindow?.hide()
+      if (cachedMinimizeToTray) {
+        e.preventDefault()
+        mainWindow?.hide()
+      } else {
+        // minimizeToTray is off — let the close proceed, which triggers quit
+        isQuitting = true
+      }
     }
   })
 
@@ -101,6 +111,7 @@ if (!app.requestSingleInstanceLock()) {
     registerSnapshotHandlers()
     registerSettingsHandlers()
     registerUpdaterHandlers()
+    await SettingsManager.get() // apply side effects (login item, theme, minimizeToTray cache)
     const profiles = await ProfileManager.getAll()
     initTray(profiles)
     createWindow()
