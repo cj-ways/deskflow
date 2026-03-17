@@ -890,22 +890,27 @@ Verify:
 
 ---
 
-### J5 · Release pipeline + v1.0.0 `[ ]`
+### J5 · Release pipeline + v1.0.0 `[DONE]`
+Built: .github/workflows/release.yml — triggers on v*.*.* tag push, runs on windows-latest, lint + typecheck + build installer, uploads .exe to GitHub Release via softprops/action-gh-release with auto-generated release notes. Bumped package.json to 1.0.0.
+
 **Goal:** Tagging `v1.0.0` auto-produces and publishes the Windows installer.
 
 Files created:
 - `.github/workflows/release.yml`
   - Trigger: push tag `v*.*.*`
-  - Steps: checkout → setup Node → `npm ci` → `npm run build` → upload `.exe` as GitHub Release asset
+  - Runner: windows-latest
+  - Steps: checkout → setup Node 20 → `npm ci` → lint → typecheck → `npm run build` → upload `.exe` via softprops/action-gh-release
 
-Actions:
-- Bump `package.json` version to `1.0.0`
-- Push tag `v1.0.0`
+Files modified:
+- `package.json` — version bumped to `1.0.0`
+
+Actions remaining:
+- Push tag `v1.0.0` when ready to publish first release
 
 Verify:
-- [ ] Tag pushed → workflow runs
-- [ ] GitHub Release created with `DeskFlow-Setup-1.0.0.exe` attached
-- [ ] Installer downloaded from release page → installs cleanly on fresh Windows
+- [ ] Tag pushed → workflow runs — requires push + tag
+- [ ] GitHub Release created with `DeskFlow Setup 1.0.0.exe` attached — requires push + tag
+- [ ] Installer downloaded from release page → installs cleanly on fresh Windows — requires manual test
 
 ---
 
@@ -963,4 +968,4 @@ Files modified:
 
 ---
 
-*Last updated: J4 complete. CI pipeline done. Next: J5 (Release pipeline + v1.0.0).*
+*Last updated: J5 complete. All phases done. Sprint complete.*

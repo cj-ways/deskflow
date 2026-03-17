@@ -1,6 +1,6 @@
 {
   "name": "deskflow",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Windows desktop session manager — restore your entire workspace in one click",
   "author": "DeskFlow Contributors",
   "private": true,
