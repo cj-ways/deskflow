@@ -1,4 +1,4 @@
-import { app } from 'electron'
+import { app, nativeTheme } from 'electron'
 import { join, dirname } from 'path'
 import { mkdir, readFile, writeFile } from 'fs/promises'
 import { existsSync } from 'fs'
@@ -26,6 +26,33 @@ function defaultSettings(): Settings {
   }
 }
 
+// ─── Side Effects ────────────────────────────────────────────────────────────
+// Called after every get() and save() to keep OS state in sync with settings.
+
+// Callback for notifying index.ts about minimizeToTray changes (set via setMinimizeToTrayCallback)
+let onMinimizeToTrayChanged: ((value: boolean) => void) | null = null
+
+export function setMinimizeToTrayCallback(cb: (value: boolean) => void): void {
+  onMinimizeToTrayChanged = cb
+}
+
+function applySideEffects(settings: Settings): void {
+  // Start with Windows — only in packaged app
+  if (app.isPackaged) {
+    app.setLoginItemSettings({ openAtLogin: settings.startWithWindows })
+    log.info(`[SettingsManager] login item openAtLogin=${settings.startWithWindows}`)
+  }
+
+  // Theme
+  nativeTheme.themeSource = settings.theme
+  log.info(`[SettingsManager] nativeTheme.themeSource=${settings.theme}`)
+
+  // Notify close handler about minimizeToTray
+  if (onMinimizeToTrayChanged) {
+    onMinimizeToTrayChanged(settings.minimizeToTray)
+  }
+}
+
 // ─── SettingsManager ──────────────────────────────────────────────────────────
 
 export const SettingsManager = {
@@ -36,6 +63,7 @@ export const SettingsManager = {
       const raw = await readFile(filePath, 'utf-8')
       const result = settingsSchema.safeParse(JSON.parse(raw))
       if (result.success) {
+        applySideEffects(result.data as Settings)
         return result.data as Settings
       }
       log.warn('[SettingsManager] settings file invalid, using defaults', result.error.flatten())
@@ -44,7 +72,7 @@ export const SettingsManager = {
     }
 
     const defaults = defaultSettings()
-    await SettingsManager.save(defaults)
+    await SettingsManager.save(defaults) // applySideEffects called inside save
     return defaults
   },
 
@@ -56,6 +84,7 @@ export const SettingsManager = {
     await mkdir(dirname(filePath), { recursive: true })
     await writeFile(filePath, JSON.stringify(merged, null, 2), 'utf-8')
     log.info('[SettingsManager] settings saved')
+    applySideEffects(merged)
     return merged
   },
 

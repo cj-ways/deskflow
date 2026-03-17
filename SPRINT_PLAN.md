@@ -954,6 +954,82 @@ Files modified:
 
 ---
 
+## Group K — Audit Fix Pass (settings + snapshot gaps)
+
+> OpenSpec change: `fix-settings-and-snapshot-gaps`
+> Full spec: `openspec/changes/fix-settings-and-snapshot-gaps/`
+
+### K1 · Start with Windows `[DONE]`
+Built: `applySideEffects(settings)` in SettingsManager.ts calls `app.setLoginItemSettings({ openAtLogin })` when packaged + `nativeTheme.themeSource = theme` + notifies minimizeToTray callback. Called from both `get()` and `save()`. Also added `setMinimizeToTrayCallback()` export for K2. tsc clean.
+
+**Goal:** Wire `startWithWindows` setting to `app.setLoginItemSettings()` so the toggle actually works.
+
+Files modified:
+- `src/main/services/SettingsManager.ts` — `applySideEffects()`, `setMinimizeToTrayCallback()`
+
+Verify:
+- [ ] Toggle ON → save → DeskFlow appears in Task Manager Startup tab — requires manual run
+- [ ] Toggle OFF → save → DeskFlow removed from Startup tab — requires manual run
+- [ ] Dev mode → no-op (only when `app.isPackaged`) — requires manual run
+
+---
+
+### K2 · Minimize to Tray `[ ]`
+**Goal:** Make close handler respect `minimizeToTray` setting — when OFF, closing quits the app.
+
+Files modified:
+- `src/main/index.ts` — cached `minimizeToTray` value, close handler checks it
+- `src/main/ipc/settings.ipc.ts` — update cache on save
+
+Verify:
+- [ ] minimizeToTray OFF → close window → app quits
+- [ ] minimizeToTray ON → close window → hides to tray (current behavior)
+- [ ] Tray Quit always quits regardless of setting
+
+---
+
+### K3 · Theme Application `[ ]`
+**Goal:** Apply saved theme via `nativeTheme.themeSource` + Tailwind dark mode classes.
+
+Files modified:
+- `src/main/services/SettingsManager.ts` — `applySideEffects()` sets `nativeTheme.themeSource`
+- `src/shared/ipc-channels.ts` — THEME_GET_DARK + THEME_CHANGED channels
+- `src/main/ipc/settings.ipc.ts` — register theme handlers + nativeTheme listener
+- `src/renderer/ipc/client.ts` — theme.isDark / onChanged / offChanged
+- `src/renderer/components/Layout.tsx` — toggle `dark` class on `<html>`
+- `src/renderer/styles.css` — Tailwind v4 dark variant config
+- Key renderer components — basic `dark:` classes on layout elements
+
+Verify:
+- [ ] Dark → UI background/text changes
+- [ ] System → follows OS dark/light preference
+- [ ] Light → always light
+
+---
+
+### K4 · Snapshot Editing `[ ]`
+**Goal:** Allow editing and deleting detected app entries on the Snapshot Review page before saving.
+
+Files modified:
+- `src/renderer/pages/SnapshotReview.tsx` — mutable draft state, Edit/Delete buttons, AppEntryModal integration
+
+Verify:
+- [ ] Edit a detected entry → changes reflected in draft → saved profile has edits
+- [ ] Delete an entry → removed from draft → saved profile doesn't include it
+- [ ] App count updates after edit/delete
+
+---
+
+### K5 · Final verification `[ ]`
+**Goal:** tsc + lint clean, manual smoke test of all 4 fixes.
+
+Verify:
+- [ ] `tsc --noEmit` passes
+- [ ] `npm run lint` passes
+- [ ] All 4 fixes working end-to-end
+
+---
+
 ## Backlog (v2+)
 
 | Feature | Notes |
@@ -968,4 +1044,4 @@ Files modified:
 
 ---
 
-*Last updated: J5 complete. All phases done. Sprint complete.*
+*Last updated: K1 complete. Start with Windows wired. Next: K2 (Minimize to Tray).*
