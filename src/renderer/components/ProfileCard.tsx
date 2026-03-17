@@ -26,11 +26,11 @@ export default function ProfileCard({ profile, onEdit, onDuplicate, onDelete, on
   const appCount = profile.desktops.reduce((sum, d) => sum + d.apps.length, 0)
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-4 flex flex-col gap-3">
+    <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm p-4 flex flex-col gap-3">
       {/* Name + counts */}
       <div>
-        <h3 className="text-base font-semibold text-gray-900 truncate">{profile.name}</h3>
-        <p className="text-sm text-gray-500 mt-0.5">
+        <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 truncate">{profile.name}</h3>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
           {desktopCount} {desktopCount === 1 ? 'desktop' : 'desktops'} &middot;{' '}
           {appCount} {appCount === 1 ? 'app' : 'apps'}
         </p>
@@ -44,7 +44,7 @@ export default function ProfileCard({ profile, onEdit, onDuplicate, onDelete, on
       </p>
 
       {/* Actions */}
-      <div className="flex items-center gap-2 pt-2 border-t border-gray-100">
+      <div className="flex items-center gap-2 pt-2 border-t border-gray-100 dark:border-gray-700">
         {confirmingDelete ? (
           <>
             <span className="text-sm text-red-600 font-medium mr-auto">Delete?</span>

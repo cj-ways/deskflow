@@ -152,7 +152,7 @@ export default function Settings() {
   return (
     <div className="p-6 space-y-8 max-w-2xl">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-gray-900">Settings</h1>
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Settings</h1>
         <div className="flex items-center gap-3">
           {success && <span className="text-sm text-green-600">Saved</span>}
           {error && <span className="text-sm text-red-600 max-w-xs truncate">{error}</span>}

@@ -49,6 +49,10 @@ export const IPC = {
   SETTINGS_DETECT_IDE_PATH: 'settings:detectIdePath',
   SETTINGS_DETECT_BROWSER_PATH: 'settings:detectBrowserPath',
 
+  // Theme
+  THEME_GET_DARK: 'theme:getDark',
+  THEME_CHANGED: 'theme:changed', // push event: main → renderer
+
   // Auto-updater
   UPDATER_CHECK: 'updater:check',
   UPDATER_INSTALL: 'updater:install',
@@ -119,6 +123,10 @@ export interface IpcChannelMap {
     req: void
     res: IpcDataResponse<string | null>
   }
+  [IPC.THEME_GET_DARK]: {
+    req: void
+    res: IpcDataResponse<boolean>
+  }
   [IPC.UPDATER_CHECK]: {
     req: void
     res: IpcVoidResponse
@@ -137,4 +145,5 @@ export interface IpcEventMap {
   [IPC.LAUNCH_PROGRESS]: LaunchProgressEvent
   [IPC.UPDATER_STATUS]: UpdateState
   [IPC.SNAPSHOT_READY]: ProfileDraft
+  [IPC.THEME_CHANGED]: boolean // true = dark
 }

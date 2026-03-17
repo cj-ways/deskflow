@@ -91,7 +91,7 @@ export default function ProfileList() {
     <div className="p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold text-gray-900">Profiles</h1>
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Profiles</h1>
         <div className="flex gap-2">
           <button
             onClick={handleSnapshot}

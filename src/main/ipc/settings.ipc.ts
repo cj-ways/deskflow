@@ -1,4 +1,4 @@
-import { ipcMain } from 'electron'
+import { ipcMain, nativeTheme, BrowserWindow } from 'electron'
 import log from '../logger'
 import { IPC } from '@shared/ipc-channels'
 import { SettingsManager } from '../services/SettingsManager'
@@ -46,6 +46,20 @@ export function registerSettingsHandlers(): void {
     } catch (err) {
       log.error('[settings.ipc] detectBrowserPath error', err)
       return { success: false, error: errMsg(err) }
+    }
+  })
+
+  // ── Theme ──────────────────────────────────────────────────────────────────
+
+  ipcMain.handle(IPC.THEME_GET_DARK, (): IpcDataResponse<boolean> => {
+    return { success: true, data: nativeTheme.shouldUseDarkColors }
+  })
+
+  // Broadcast theme changes to all renderer windows
+  nativeTheme.on('updated', () => {
+    const isDark = nativeTheme.shouldUseDarkColors
+    for (const win of BrowserWindow.getAllWindows()) {
+      win.webContents.send(IPC.THEME_CHANGED, isDark)
     }
   })
 

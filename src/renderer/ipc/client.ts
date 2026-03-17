@@ -57,6 +57,16 @@ const settings = {
   detectBrowserPath: () => window.api.invoke(IPC.SETTINGS_DETECT_BROWSER_PATH),
 }
 
+// ─── Theme ──────────────────────────────────────────────────────────────────
+
+const theme = {
+  isDark: () => window.api.invoke(IPC.THEME_GET_DARK),
+  onChanged: (listener: (isDark: boolean) => void) =>
+    window.api.on(IPC.THEME_CHANGED, listener),
+  offChanged: (listener: (isDark: boolean) => void) =>
+    window.api.off(IPC.THEME_CHANGED, listener),
+}
+
 // ─── Updater ────────────────────────────────────────────────────────────────
 
 const updater = {
@@ -70,7 +80,7 @@ const updater = {
 
 // ─── Unified export ───────────────────────────────────────────────────────────
 
-export const ipc = { profiles, dialog, launch, snapshot, settings, updater }
+export const ipc = { profiles, dialog, launch, snapshot, settings, theme, updater }
 
 // Re-export types components commonly need
 export type { Profile, ProfileDraft, Settings, LaunchProgressEvent, FileFilter, UpdateState }

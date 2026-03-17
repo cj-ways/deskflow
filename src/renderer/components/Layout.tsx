@@ -26,6 +26,23 @@ export default function Layout() {
     return () => ipc.snapshot.offReady(handleSnapshotReady)
   }, [handleSnapshotReady])
 
+  // ── Theme: sync dark class on <html> with nativeTheme ───────────────────
+  useEffect(() => {
+    // Query initial state
+    ipc.theme.isDark().then((res) => {
+      if (res.success) {
+        document.documentElement.classList.toggle('dark', res.data)
+      }
+    })
+
+    // Listen for changes (OS theme change, or user toggled in Settings)
+    const handleThemeChanged = (isDark: boolean) => {
+      document.documentElement.classList.toggle('dark', isDark)
+    }
+    ipc.theme.onChanged(handleThemeChanged)
+    return () => ipc.theme.offChanged(handleThemeChanged)
+  }, [])
+
   // ── Global keyboard shortcuts ──────────────────────────────────────────────
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -46,9 +63,9 @@ export default function Layout() {
   }, [navigate])
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden">
+    <div className="flex h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden">
       {/* Sidebar */}
-      <nav className="w-52 shrink-0 bg-gray-900 flex flex-col">
+      <nav className="w-52 shrink-0 bg-gray-900 dark:bg-gray-950 flex flex-col">
         <div className="px-4 py-5 border-b border-gray-800">
           <span className="text-white font-bold text-base tracking-wide">DeskFlow</span>
         </div>
@@ -66,7 +83,7 @@ export default function Layout() {
       {/* Main content */}
       <main className="flex-1 flex flex-col overflow-hidden">
         <UpdateBanner />
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-auto text-gray-900 dark:text-gray-100">
           <Outlet />
         </div>
       </main>

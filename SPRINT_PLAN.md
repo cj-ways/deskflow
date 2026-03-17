@@ -989,22 +989,26 @@ Verify:
 
 ---
 
-### K3 · Theme Application `[ ]`
+### K3 · Theme Application `[DONE]`
+Built: Full theme pipeline — applySideEffects sets nativeTheme.themeSource, THEME_GET_DARK IPC channel returns shouldUseDarkColors, THEME_CHANGED push event on nativeTheme 'updated', renderer client wrappers, Layout.tsx toggles .dark class on html element, Tailwind v4 @variant dark configured, basic dark: classes on Layout (sidebar, main), ProfileCard, ProfileEditor top bar, ProfileList header, Settings header. tsc and ESLint clean.
+
 **Goal:** Apply saved theme via `nativeTheme.themeSource` + Tailwind dark mode classes.
 
 Files modified:
-- `src/main/services/SettingsManager.ts` — `applySideEffects()` sets `nativeTheme.themeSource`
-- `src/shared/ipc-channels.ts` — THEME_GET_DARK + THEME_CHANGED channels
-- `src/main/ipc/settings.ipc.ts` — register theme handlers + nativeTheme listener
-- `src/renderer/ipc/client.ts` — theme.isDark / onChanged / offChanged
-- `src/renderer/components/Layout.tsx` — toggle `dark` class on `<html>`
-- `src/renderer/styles.css` — Tailwind v4 dark variant config
-- Key renderer components — basic `dark:` classes on layout elements
+- `src/shared/ipc-channels.ts` — THEME_GET_DARK channel + THEME_CHANGED push event
+- `src/main/ipc/settings.ipc.ts` — theme handler + nativeTheme.on('updated') broadcaster
+- `src/renderer/ipc/client.ts` — ipc.theme.isDark / onChanged / offChanged
+- `src/renderer/components/Layout.tsx` — theme sync effect + dark: classes on shell
+- `src/renderer/styles.css` — @variant dark config for Tailwind v4
+- `src/renderer/components/ProfileCard.tsx` — dark: classes on card
+- `src/renderer/pages/ProfileList.tsx` — dark: on heading
+- `src/renderer/pages/ProfileEditor.tsx` — dark: on top bar
+- `src/renderer/pages/Settings.tsx` — dark: on heading
 
 Verify:
-- [ ] Dark → UI background/text changes
-- [ ] System → follows OS dark/light preference
-- [ ] Light → always light
+- [ ] Dark → UI background/text changes — requires manual run
+- [ ] System → follows OS dark/light preference — requires manual run
+- [ ] Light → always light — requires manual run
 
 ---
 
@@ -1045,4 +1049,4 @@ Verify:
 
 ---
 
-*Last updated: K2 complete. Minimize to Tray wired. Next: K3 (Theme Application).*
+*Last updated: K3 complete. Theme application wired. Next: K4 (Snapshot Editing).*

@@ -14,14 +14,14 @@
 
 ## 3. Theme Application
 
-- [ ] 3.1 In `applySideEffects()` (SettingsManager), set `nativeTheme.themeSource = settings.theme`
-- [ ] 3.2 Add a new IPC channel `THEME_GET_DARK` in `ipc-channels.ts` that returns `nativeTheme.shouldUseDarkColors` boolean
-- [ ] 3.3 Add a new IPC push event `THEME_CHANGED` in `ipc-channels.ts` that fires when dark mode changes
-- [ ] 3.4 Register a `nativeTheme.on('updated')` listener in main process that sends `THEME_CHANGED` with `nativeTheme.shouldUseDarkColors` to all renderer windows
-- [ ] 3.5 Add `ipc.theme.isDark()` and `ipc.theme.onChanged()` / `ipc.theme.offChanged()` wrappers in `src/renderer/ipc/client.ts`
-- [ ] 3.6 In `Layout.tsx` (or `App.tsx`), query `ipc.theme.isDark()` on mount and listen for `THEME_CHANGED` — toggle `document.documentElement.classList.toggle('dark', isDark)`
-- [ ] 3.7 Configure Tailwind v4 dark mode: add `@variant dark (&:where(.dark, .dark *));` to `styles.css`
-- [ ] 3.8 Add basic `dark:` classes to key layout elements: sidebar (`dark:bg-gray-900`), main content (`dark:bg-gray-800 dark:text-gray-100`), cards (`dark:bg-gray-700 dark:border-gray-600`)
+- [x] 3.1 In `applySideEffects()` (SettingsManager), set `nativeTheme.themeSource = settings.theme`
+- [x] 3.2 Add a new IPC channel `THEME_GET_DARK` in `ipc-channels.ts` that returns `nativeTheme.shouldUseDarkColors` boolean
+- [x] 3.3 Add a new IPC push event `THEME_CHANGED` in `ipc-channels.ts` that fires when dark mode changes
+- [x] 3.4 Register a `nativeTheme.on('updated')` listener in main process that sends `THEME_CHANGED` with `nativeTheme.shouldUseDarkColors` to all renderer windows
+- [x] 3.5 Add `ipc.theme.isDark()` and `ipc.theme.onChanged()` / `ipc.theme.offChanged()` wrappers in `src/renderer/ipc/client.ts`
+- [x] 3.6 In `Layout.tsx` (or `App.tsx`), query `ipc.theme.isDark()` on mount and listen for `THEME_CHANGED` — toggle `document.documentElement.classList.toggle('dark', isDark)`
+- [x] 3.7 Configure Tailwind v4 dark mode: add `@variant dark (&:where(.dark, .dark *));` to `styles.css`
+- [x] 3.8 Add basic `dark:` classes to key layout elements: sidebar, main content, cards, page headers, border colors
 - [ ] 3.9 Verify: switch to Dark → UI background/text changes. Switch to System → follows OS. Switch to Light → always light.
 
 ## 4. Snapshot Editing

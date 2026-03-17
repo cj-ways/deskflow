@@ -1,1 +1,4 @@
 @import "tailwindcss";
+
+/* Dark mode: activated by .dark class on <html>, set via nativeTheme IPC */
+@variant dark (&:where(.dark, .dark *));
