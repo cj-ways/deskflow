@@ -98,10 +98,10 @@ export default function AppEntryModal({ initial, onSave, onClose }: Props) {
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
     >
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4 max-h-[90vh] flex flex-col">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg mx-4 max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-          <h2 className="text-base font-semibold text-gray-900">{title}</h2>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100">{title}</h2>
           <button
             type="button"
             onClick={onClose}
@@ -120,10 +120,10 @@ export default function AppEntryModal({ initial, onSave, onClose }: Props) {
                   key={type}
                   type="button"
                   onClick={() => selectType(type)}
-                  className="flex flex-col items-start gap-1 p-4 rounded-lg border-2 border-gray-200 hover:border-indigo-400 hover:bg-indigo-50 transition-colors text-left"
+                  className="flex flex-col items-start gap-1 p-4 rounded-lg border-2 border-gray-200 dark:border-gray-600 hover:border-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors text-left"
                 >
-                  <span className="text-sm font-semibold text-gray-900">{label}</span>
-                  <span className="text-xs text-gray-500">{description}</span>
+                  <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">{label}</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">{description}</span>
                 </button>
               ))}
             </div>
@@ -146,7 +146,7 @@ export default function AppEntryModal({ initial, onSave, onClose }: Props) {
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b-xl">
+        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 rounded-b-xl">
           <div>
             {step === 'form' && !isEditing && (
               <button
@@ -162,7 +162,7 @@ export default function AppEntryModal({ initial, onSave, onClose }: Props) {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm font-medium rounded-md border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 transition-colors"
+              className="px-4 py-2 text-sm font-medium rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
             >
               Cancel
             </button>

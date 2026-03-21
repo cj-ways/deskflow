@@ -15,7 +15,7 @@ export default function UpdateBanner() {
   if (!state || state.status !== 'downloaded' || dismissed) return null
 
   return (
-    <div className="bg-indigo-600 text-white px-4 py-2 flex items-center justify-between text-sm shrink-0">
+    <div className="bg-indigo-600 dark:bg-indigo-700 text-white px-4 py-2 flex items-center justify-between text-sm shrink-0">
       <span>
         DeskFlow {state.info?.version ?? 'update'} is ready to install.
       </span>

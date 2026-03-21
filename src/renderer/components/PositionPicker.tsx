@@ -49,8 +49,8 @@ export default function PositionPicker({ value, onChange }: Props) {
               title={pos}
               className={`relative w-10 h-10 rounded border transition-colors ${
                 active
-                  ? 'bg-indigo-50 border-indigo-400'
-                  : 'bg-gray-50 border-gray-300 hover:bg-indigo-50 hover:border-indigo-300'
+                  ? 'bg-indigo-50 dark:bg-indigo-900/40 border-indigo-400'
+                  : 'bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:border-indigo-300'
               }`}
             >
               <span
@@ -77,7 +77,7 @@ export default function PositionPicker({ value, onChange }: Props) {
               className={`flex-1 py-1.5 text-xs font-medium rounded border transition-colors ${
                 active
                   ? 'bg-indigo-600 border-indigo-600 text-white'
-                  : 'bg-gray-50 border-gray-300 text-gray-600 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-600'
+                  : 'bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:border-indigo-300 hover:text-indigo-600'
               }`}
             >
               {label}

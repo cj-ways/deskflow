@@ -27,7 +27,7 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: number)
   }, [toast.id, onDismiss])
 
   return (
-    <div className="flex items-start gap-3 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg shadow-lg max-w-sm animate-[slideIn_0.2s_ease-out]">
+    <div className="flex items-start gap-3 bg-red-50 dark:bg-red-900/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg shadow-lg max-w-sm animate-[slideIn_0.2s_ease-out]">
       <span className="shrink-0 text-red-500 font-bold mt-0.5">!</span>
       <p className="text-sm flex-1 break-words">{toast.message}</p>
       <button

@@ -42,8 +42,8 @@ export default function BrowserForm({ value, onChange, errors }: Props) {
     <div className="flex flex-col gap-5">
       {/* Mode toggle */}
       <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium text-gray-700">Mode</label>
-        <div className="flex rounded-md border border-gray-300 bg-gray-50 p-0.5 w-fit">
+        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Mode</label>
+        <div className="flex rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 p-0.5 w-fit">
           {(['local', 'website'] as const).map((mode) => (
             <button
               key={mode}
@@ -51,8 +51,8 @@ export default function BrowserForm({ value, onChange, errors }: Props) {
               onClick={() => switchMode(mode)}
               className={`px-4 py-1.5 text-sm font-medium rounded transition-colors ${
                 value.mode === mode
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
               }`}
             >
               {mode === 'local' ? 'Local project' : 'Website'}
@@ -64,7 +64,7 @@ export default function BrowserForm({ value, onChange, errors }: Props) {
       {/* Mode-specific fields */}
       {value.mode === 'local' ? (
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-gray-700">Port</label>
+          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Port</label>
           <input
             type="number"
             min={1}
@@ -73,25 +73,25 @@ export default function BrowserForm({ value, onChange, errors }: Props) {
             onChange={(e) =>
               onChange({ ...value, port: Math.min(65535, Math.max(1, Number(e.target.value))) })
             }
-            className={`w-32 px-3 py-2 text-sm rounded-md border bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+            className={`w-32 px-3 py-2 text-sm rounded-md border bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
               errors.port ? 'border-red-400' : 'border-gray-300'
             }`}
           />
           {errors.port && <p className="text-xs text-red-600">{errors.port}</p>}
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
             Opens:{' '}
             <span className="font-mono">http://localhost:{value.port}</span>
           </p>
         </div>
       ) : (
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-gray-700">URL</label>
+          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">URL</label>
           <input
             type="url"
             value={value.url}
             onChange={(e) => onChange({ ...value, url: e.target.value })}
             placeholder="https://example.com"
-            className={`px-3 py-2 text-sm rounded-md border bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+            className={`px-3 py-2 text-sm rounded-md border bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
               errors.url ? 'border-red-400' : 'border-gray-300'
             }`}
           />
@@ -104,13 +104,13 @@ export default function BrowserForm({ value, onChange, errors }: Props) {
 
       {/* Window position */}
       <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium text-gray-700">Window position</label>
+        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Window position</label>
         <PositionPicker value={value.position} onChange={setPosition} />
       </div>
 
       {/* Launch delay */}
       <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium text-gray-700">Launch delay (ms)</label>
+        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Launch delay (ms)</label>
         <input
           type="number"
           min={0}
@@ -119,7 +119,7 @@ export default function BrowserForm({ value, onChange, errors }: Props) {
           onChange={(e) => setDelay(Math.max(0, Number(e.target.value)))}
           className="w-32 px-3 py-2 text-sm rounded-md border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
-        <p className="text-xs text-gray-500">Extra wait before launching the next app</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">Extra wait before launching the next app</p>
       </div>
     </div>
   )

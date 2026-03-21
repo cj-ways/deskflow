@@ -57,7 +57,7 @@ export default function DesktopCard({ desktop, onChange, onDelete }: Props) {
   }
 
   return (
-    <div className="flex flex-col gap-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
+    <div className="flex flex-col gap-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
       {/* Header */}
       <div className="flex items-center gap-2">
         <span className="text-xs font-medium text-gray-400 shrink-0">
@@ -68,7 +68,7 @@ export default function DesktopCard({ desktop, onChange, onDelete }: Props) {
           value={desktop.name}
           onChange={(e) => onChange({ ...desktop, name: e.target.value })}
           placeholder="Unnamed desktop"
-          className="flex-1 px-2 py-0.5 text-sm font-medium text-gray-800 bg-transparent border border-transparent rounded hover:border-gray-300 focus:border-indigo-400 focus:outline-none focus:bg-white transition-colors"
+          className="flex-1 px-2 py-0.5 text-sm font-medium text-gray-800 dark:text-gray-200 bg-transparent border border-transparent rounded hover:border-gray-300 dark:hover:border-gray-600 focus:border-indigo-400 focus:outline-none focus:bg-white dark:focus:bg-gray-700 transition-colors"
         />
         <div className="shrink-0 flex items-center gap-1">
           {confirmDelete ? (

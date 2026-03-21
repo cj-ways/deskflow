@@ -43,7 +43,7 @@ export default function AppEntryRow({ entry, onEdit, onDelete }: Props) {
         transition,
         opacity: isDragging ? 0.4 : 1,
       }}
-      className="flex items-center gap-2 px-3 py-2 bg-white rounded-md border border-gray-200 hover:border-gray-300"
+      className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-gray-700 rounded-md border border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500"
     >
       {/* Drag handle */}
       <button
@@ -66,7 +66,7 @@ export default function AppEntryRow({ entry, onEdit, onDelete }: Props) {
       </span>
 
       {/* Summary */}
-      <span className="flex-1 text-xs text-gray-600 truncate font-mono">
+      <span className="flex-1 text-xs text-gray-600 dark:text-gray-300 truncate font-mono">
         {entrySummary(entry)}
       </span>
 

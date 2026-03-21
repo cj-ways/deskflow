@@ -31,34 +31,34 @@ export default function IdeForm({ value, onChange, errors }: Props) {
     <div className="flex flex-col gap-5">
       {/* Folder path */}
       <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium text-gray-700">Project folder</label>
+        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Project folder</label>
         <div className="flex gap-2">
           <input
             type="text"
             value={value.folder}
             onChange={(e) => onChange({ ...value, folder: e.target.value })}
             placeholder="C:\Users\you\projects\my-app"
-            className={`flex-1 px-3 py-2 text-sm rounded-md border bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+            className={`flex-1 px-3 py-2 text-sm rounded-md border bg-white dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
               errors.folder ? 'border-red-400' : 'border-gray-300'
             }`}
           />
           <button
             type="button"
             onClick={handleBrowse}
-            className="px-3 py-2 text-sm font-medium rounded-md border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 transition-colors"
+            className="px-3 py-2 text-sm font-medium rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
           >
             Browse
           </button>
         </div>
         {errors.folder && <p className="text-xs text-red-600">{errors.folder}</p>}
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-gray-500 dark:text-gray-400">
           {idePath ? `Opens with: ${idePath}` : 'IDE path not configured — set it in Settings'}
         </p>
       </div>
 
       {/* Window position */}
       <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium text-gray-700">Window position</label>
+        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Window position</label>
         <PositionPicker
           value={value.position}
           onChange={(p) => onChange({ ...value, position: p })}
@@ -67,7 +67,7 @@ export default function IdeForm({ value, onChange, errors }: Props) {
 
       {/* Launch delay */}
       <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-medium text-gray-700">Launch delay (ms)</label>
+        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Launch delay (ms)</label>
         <input
           type="number"
           min={0}
@@ -76,7 +76,7 @@ export default function IdeForm({ value, onChange, errors }: Props) {
           onChange={(e) => onChange({ ...value, delayMs: Math.max(0, Number(e.target.value)) })}
           className="w-32 px-3 py-2 text-sm rounded-md border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
-        <p className="text-xs text-gray-500">Extra wait before launching the next app</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">Extra wait before launching the next app</p>
       </div>
     </div>
   )

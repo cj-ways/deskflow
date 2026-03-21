@@ -127,18 +127,18 @@ export default function LaunchProgressModal({ profileId, profileName, onClose }:
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
         {/* Header */}
         <div className="px-6 pt-5 pb-3">
-          <h2 className="text-lg font-semibold text-gray-900">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
             Launching {profileName}
           </h2>
-          <p className="text-sm text-gray-500 mt-1">{message}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{message}</p>
         </div>
 
         {/* Progress bar */}
         <div className="px-6 pb-3">
-          <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+          <div className="w-full h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
             <div
               className="h-full bg-indigo-500 rounded-full transition-all duration-300"
               style={{ width: `${progressPercent}%` }}
@@ -154,7 +154,7 @@ export default function LaunchProgressModal({ profileId, profileName, onClose }:
           {appStatuses.map((app) => (
             <div
               key={app.appId}
-              className="flex items-start gap-3 py-2 border-b border-gray-50 last:border-0"
+              className="flex items-start gap-3 py-2 border-b border-gray-50 dark:border-gray-700 last:border-0"
             >
               {/* Status indicator */}
               <span className="shrink-0 mt-0.5">
@@ -174,7 +174,7 @@ export default function LaunchProgressModal({ profileId, profileName, onClose }:
 
               {/* Label + error */}
               <div className="min-w-0 flex-1">
-                <p className="text-sm text-gray-700 truncate">{app.label}</p>
+                <p className="text-sm text-gray-700 dark:text-gray-300 truncate">{app.label}</p>
                 {app.error && (
                   <p className="text-xs text-red-500 mt-0.5 break-words">{app.error}</p>
                 )}
@@ -184,12 +184,12 @@ export default function LaunchProgressModal({ profileId, profileName, onClose }:
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-gray-100 flex justify-end gap-2">
+        <div className="px-6 py-4 border-t border-gray-100 dark:border-gray-700 flex justify-end gap-2">
           {!finished ? (
             <button
               type="button"
               onClick={handleCancel}
-              className="px-4 py-2 text-sm font-medium rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors"
+              className="px-4 py-2 text-sm font-medium rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
               Cancel
             </button>
